@@ -1,29 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 namespace Preprocessing
 {
-    public struct Reference
-    {
-        public int book;
-        public int chapterStart;
-        public int verseStart = 0;
-        public int chapterEnd = 0;
-        public int verseEnd = 0;
-
-        public Reference(int book, int chapter, int verse = 0)
-        {
-            this.book = book;
-            this.chapterStart = chapter;
-            this.verseStart = verse;
-        }
-        public Reference(int book, int chapterStart, int verseStart, int chapterEnd, int verseEnd)
-        {
-            this.book = book;
-            this.chapterStart = chapterStart;
-            this.verseStart = verseStart;
-            this.chapterEnd = chapterEnd;
-            this.verseEnd = verseEnd;
-        }
-    }
+    
     public interface SpecificFilePreprocessing
     {
         SqliteCommand PrepareInsertQuery(SqliteConnection connection, SqliteTransaction transaction);
