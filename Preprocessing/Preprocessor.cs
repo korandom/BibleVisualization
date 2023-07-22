@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using System.IO;
 namespace Preprocessing
 {
     
@@ -11,11 +12,21 @@ namespace Preprocessing
     public class Preprocessor
     {
         readonly TargetParser targetParser;
-        readonly string folderPath;
-        public Preprocessor(string folderPath)
+        readonly string sourceFolderPath;
+        readonly string resultFolderPath;
+        public Preprocessor(string sourceFolderPath, string  resultFolderPath)
         {
             targetParser = new TargetParser();
-            this.folderPath = folderPath;
+            this.sourceFolderPath = sourceFolderPath;
+            this.resultFolderPath = resultFolderPath;
+        }
+        public void ProcessAll()
+        {
+            string[] allFilesPaths = Directory.GetFiles(sourceFolderPath);
+            foreach (var filePath in allFilesPaths)
+            {
+                Process(Path.GetFileName(filePath));
+            }
         }
         public void Process(string fileName)
         {
@@ -23,19 +34,19 @@ namespace Preprocessing
             if (fileType == "commentaries") 
             {
                 CommentariesPreprocessing commentaries = new CommentariesPreprocessing();
-                ToCrossReference<CommentariesPreprocessing>(fileName, commentaries.createCrossreferenceTableText,fileType, commentaries);
+                ToCrossReference<CommentariesPreprocessing>(fileName, commentaries.createCrossreferenceTableText,fileType, commentaries.usedColumns, commentaries);
             }
             else if (fileType == "dictionary") 
             {
                 DictionaryPreprocessing dictionary = new DictionaryPreprocessing();
-                ToCrossReference<DictionaryPreprocessing>(fileName, dictionary.createCrossreferenceTableText, fileType, dictionary);
+                ToCrossReference<DictionaryPreprocessing>(fileName, dictionary.createCrossreferenceTableText, fileType,dictionary.usedColumns, dictionary);
             }
             else throw new FormatException("Invalid File Format Name");
         }
-        private void ToCrossReference<T>(string fileName, string createCrossreferenceTableText, string tableType, T SpecificFileType) where T : SpecificFilePreprocessing
+        private void ToCrossReference<T>(string fileName, string createCrossreferenceTableText, string tableType, string usedColumns,  T SpecificFileType) where T : SpecificFilePreprocessing
         {
-            string newFileName = GetName(fileName);
-            string pathCrossreference = Path.Combine(folderPath, newFileName);
+            string newFileName = GetName(fileName,tableType);
+            string pathCrossreference = Path.Combine(resultFolderPath, newFileName);
             bool alreadyExists = false;
             using (var connection = new SqliteConnection($"Data Source={pathCrossreference}"))
             {
@@ -51,13 +62,13 @@ namespace Preprocessing
             }
             if (!alreadyExists)
             {
-                string pathOriginal = Path.Combine(folderPath, fileName);
+                string pathOriginal = Path.Combine(sourceFolderPath, fileName);
                 using (var connection = new SqliteConnection($"Data Source={pathOriginal}"))
                 {
                     connection.Open();
 
                     var command = connection.CreateCommand();
-                    command.CommandText = $"SELECT  * FROM {tableType}";
+                    command.CommandText = $"SELECT {usedColumns} FROM {tableType}";
 
                     using (var reader = command.ExecuteReader())
                     {
@@ -76,7 +87,7 @@ namespace Preprocessing
             }
 
         }
-        private string GetName(string fileName)
+        private string GetName(string fileName, string originalTableType)
         {
             string realName = "";
             int l = fileName.Length;
@@ -85,7 +96,7 @@ namespace Preprocessing
                 realName += fileName[i];
                 if (fileName[i] == '.') break; 
             }
-            realName += "crossreferences.SQLite3";
+            realName += originalTableType + ".crossreferences.SQLite3";
             return realName;
         }
         private string GetFileType(string  fileName)

@@ -4,9 +4,8 @@
     {
         static void Main(string[] args)
         {
-            string fileName = "Novotný.dictionary.SQLite3";
-            Preprocessor cp = new Preprocessor("C:\\Users\\marie\\Desktop\\skola\\2. leto\\bible\\BibleVizualization\\data_sources\\Dictionaries");
-            cp.Process(fileName);
+            Preprocessor cp = new Preprocessor("C:\\Users\\marie\\Desktop\\skola\\2. leto\\bible\\BibleVizualization\\dataSources\\ToPreprocess", "C:\\Users\\marie\\Desktop\\skola\\2. leto\\bible\\BibleVizualization\\dataSources\\Preprocessed");
+            cp.Process("MHWBC.commentaries.SQLite3");
         }
     }
 }

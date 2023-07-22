@@ -12,6 +12,7 @@ namespace Preprocessing
                                                       ""verse_to"" NUMERIC, ""chapter_to_end"" NUMERIC,
                                                       ""verse_to_end"" NUMERIC, ""votes"" NUMERIC) 
             ";
+        public readonly string usedColumns = "book_number, chapter_number_from, verse_number_from, chapter_number_to, verse_number_to, text";
         public SqliteCommand PrepareInsertQuery(SqliteConnection connection, SqliteTransaction transaction)
         {
             var command = connection.CreateCommand();

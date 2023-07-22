@@ -10,6 +10,7 @@ namespace Preprocessing
                                                       ""book"" NUMERIC, ""chapter"" NUMERIC,
                                                       ""verse"" NUMERIC, ""chapter_end"" NUMERIC, ""verse_end"" NUMERIC) 
             ";
+        public readonly string usedColumns = "topic, definition";
         public SqliteCommand PrepareInsertQuery(SqliteConnection connection, SqliteTransaction transaction)
         {
             var command = connection.CreateCommand();
