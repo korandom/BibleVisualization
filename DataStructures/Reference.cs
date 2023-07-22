@@ -22,6 +22,18 @@
             this.chapterEnd = chapterEnd;
             this.verseEnd = verseEnd;
         }
+        public static bool operator ==(Reference first, Reference second)
+        {
+            return first.book == second.book &&
+                   first.chapterStart == second.chapterStart &&
+                   first.verseStart == second.verseStart &&
+                   first.chapterEnd == second.chapterEnd &&
+                   first.verseEnd == second.verseEnd;
+        }
+        public static bool operator !=(Reference first, Reference second)
+        {
+            return !(first == second);
+        }
     }
     public static class ReferenceExtentions
     {/*
@@ -61,7 +73,7 @@
             if (count == 0) { throw new FormatException(); }
 
             int book = targetNumbers[0];
-            if (count == 1)         //B:<book number
+            if (count == 1)         //B:<book number>
             {
                 targets.Add(new Reference(book, 0));
                 return targets;
