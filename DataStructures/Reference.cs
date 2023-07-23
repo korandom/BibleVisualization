@@ -1,4 +1,6 @@
-﻿namespace DataStructures
+﻿using System.Runtime.ExceptionServices;
+
+namespace DataStructures
 {
     public struct Reference
     {
@@ -34,6 +36,56 @@
         {
             return !(first == second);
         }
+        public bool FitsInto(Reference requirement)
+        {
+            bool fits;
+            if (requirement.book == 0) 
+                return true;
+            fits = book == requirement.book;
+            if (requirement.chapterStart == 0)
+                return fits;
+            bool sameChapter = chapterStart == requirement.chapterStart;
+            if (requirement.verseStart == 0 && requirement.chapterEnd == 0)
+            {
+                fits &= sameChapter;
+                return fits;
+            }
+            if(requirement.verseStart == 0)
+            {
+                fits &= FitsIntoChapters(requirement);
+                return fits;
+            }
+            if (requirement.chapterEnd == 0)
+            {
+                fits &= sameChapter;
+                if(requirement.verseEnd == 0)
+                {
+                    fits &= requirement.verseStart == verseStart;
+                    return fits;
+                }
+
+                fits &= requirement.verseStart <= verseStart &&  requirement.verseEnd >= verseEnd;
+                return fits;
+            }
+            fits &= FitsIntoChapters(requirement) && FitsIntoMultipleVerses(requirement);
+            return fits;
+
+        }
+        private bool FitsIntoChapters(Reference requirement)
+            => chapterStart >= requirement.chapterStart && chapterEnd <= requirement.chapterEnd;
+        private bool FitsIntoMultipleVerses(Reference requirement)
+        {
+            bool fits = true;
+            if(chapterStart == requirement.chapterStart)
+            {
+                fits &= requirement.verseStart <= verseStart;
+            }
+            if (chapterEnd == requirement.chapterEnd)
+            {
+                fits &= requirement.verseEnd >= verseEnd;
+            }
+            return fits;
+        }
     }
     public static class ReferenceExtentions
     {/*
@@ -44,7 +96,7 @@
         //B:<book number> <chapter number start>-<chapter number end>
         //B:<book number>
         */
-        static public List<Reference> ToTarget(this string unparsed) //input is a string reference without "B:"
+        static public List<Reference> ToReference(this string unparsed) //input is a string reference without "B:"
         {
             int l = unparsed.Length;
             char[] delimeters = new char[] { ' ', ':', '-', ',' };
