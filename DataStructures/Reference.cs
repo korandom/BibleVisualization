@@ -44,7 +44,7 @@ namespace DataStructures
             fits = book == requirement.book;
             if (requirement.chapterStart == 0)
                 return fits;
-            bool sameChapter = chapterStart == requirement.chapterStart;
+            bool sameChapter = chapterStart == requirement.chapterStart && chapterEnd == 0;
             if (requirement.verseStart == 0 && requirement.chapterEnd == 0)
             {
                 fits &= sameChapter;
@@ -60,7 +60,7 @@ namespace DataStructures
                 fits &= sameChapter;
                 if(requirement.verseEnd == 0)
                 {
-                    fits &= requirement.verseStart == verseStart;
+                    fits &= requirement.verseStart == verseStart && verseEnd == 0;
                     return fits;
                 }
 
