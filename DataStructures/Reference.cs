@@ -1,4 +1,5 @@
 ﻿using System.Runtime.ExceptionServices;
+using System.Threading.Channels;
 
 namespace DataStructures
 {
@@ -36,6 +37,28 @@ namespace DataStructures
         {
             return !(first == second);
         }
+        public override bool Equals(object? obj)
+        {
+            return obj is Reference reference && Equals(reference);
+        }
+        public bool Equals(Reference reference)
+        {
+            return this == reference;
+        }
+        public override int GetHashCode()
+        {
+
+            const int prime1 = 31;
+            const int prime2 = 37;
+            const int prime3 = 41;
+            const int primeMOD = 997;
+            int hash1 = (book * prime1) %  primeMOD;
+            int hash2 = (chapterStart * prime2  + chapterEnd) % primeMOD;
+            int hash3 = (verseStart * prime3 + verseEnd) % primeMOD;
+            int hash = hash1 + (hash2 * 1000) + (hash3 *1000000);
+            return hash;
+            
+        } 
         public bool FitsInto(Reference requirement)
         {
             bool fits;
@@ -44,7 +67,7 @@ namespace DataStructures
             fits = book == requirement.book;
             if (requirement.chapterStart == 0)
                 return fits;
-            bool sameChapter = chapterStart == requirement.chapterStart && chapterEnd == 0;
+            bool sameChapter = chapterStart == requirement.chapterStart && (chapterEnd == 0 || chapterEnd == chapterStart);
             if (requirement.verseStart == 0 && requirement.chapterEnd == 0)
             {
                 fits &= sameChapter;
@@ -99,7 +122,7 @@ namespace DataStructures
         static public List<Reference> ToReference(this string unparsed) //input is a string reference without "B:"
         {
             int l = unparsed.Length;
-            char[] delimeters = new char[] { ' ', ':', '-', ',' };
+            char[] delimeters = new char[] { ' ', ':', '-', ',', '.' };
             List<char> targetDelimeters = new List<char>();
             List<int> targetNumbers = new List<int>();
             List<Reference> targets = new List<Reference>();
@@ -117,12 +140,12 @@ namespace DataStructures
                     number = 0;
                     if (unparsed[i] != ' ') { targetDelimeters.Add(unparsed[i]); }
                 }
-                else { throw new FormatException(); }
+                else { throw new FormatException("Invalid Delimeters or Characters"); }
             }
             int count = targetNumbers.Count;
             int delCount = targetDelimeters.Count;
 
-            if (count == 0) { throw new FormatException(); }
+            if (count == 0) { throw new FormatException("No Valid Requirement"); }
 
             int book = targetNumbers[0];
             if (count == 1)         //B:<book number>
@@ -138,7 +161,7 @@ namespace DataStructures
                 targets.Add(new Reference(book, chapterStart));
                 return targets;
             }
-            if (delCount == 0) { throw new FormatException(); }
+            if (delCount == 0) { throw new FormatException("Missing Delimeters in Requirement"); }
         
             if (count == 3 && targetDelimeters[0] == '-') //B:<book number> <chapter number start>-<chapter number end>
             {
@@ -152,7 +175,7 @@ namespace DataStructures
                 targets.Add(new Reference(book, chapterStart, verseStart));
                 return targets;
             }
-            bool verseAndSpan = (targetDelimeters[0] == ':' && targetDelimeters[1] == '-');
+            bool verseAndSpan = ((targetDelimeters[0] == ':' || targetDelimeters[0] == '.') && targetDelimeters[1] == '-');
             if (count == 4 && delCount == 2 && verseAndSpan) //B:<book number> <chapter number>:<verse number>-<end verse number>
             {
                 targets.Add(new Reference(book, chapterStart, verseStart, default, targetNumbers[3]));
@@ -172,7 +195,7 @@ namespace DataStructures
                 }
                 return targets;
             }
-            throw new FormatException();
+            throw new FormatException("Wrong Requirements Format");
         }
     }
 }
