@@ -3,7 +3,7 @@ using Microsoft.Data.Sqlite;
 
 namespace FindLinksForRequirements
 {
-    public enum OneTextBoxState { all, from, to, inside };
+    public enum OneTextBoxState {  inside, to, from, all };
     public enum OriginType { crossreferences, commentaries, dictionary };
     public struct CrossreferenceData
     {
@@ -182,7 +182,7 @@ namespace FindLinksForRequirements
         private List<Link> GetLinksFromAllFiles(CrossreferenceData data)
         {
             string[] allFilePaths = Directory.GetFiles(data.folderPath);
-            //HashSet<Link> links = new HashSet<Link>();
+            
             List<Link> final = new List<Link>();
             List<List<Link>> listFromAll = new List<List<Link>>();
             Parallel.ForEach(allFilePaths, filePath =>

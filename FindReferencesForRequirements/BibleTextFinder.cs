@@ -117,7 +117,7 @@ namespace FindReferencesForRequirements
             }
             return false;
         }
-        public bool Next(out Verse verse)
+        private bool Next(out Verse verse)
         {
             if (!initialized && Initialize())
             {
@@ -153,7 +153,7 @@ namespace FindReferencesForRequirements
         {
             return Back(out Verse _);
         }
-        public bool Back(out Verse verse)
+        private bool Back(out Verse verse)
         {
             if (current.verse - 1 > 0)
             {

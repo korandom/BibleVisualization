@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    internal static class NameToBook
+    public static class NameToBook
     {
-        internal static Dictionary<int, string> bookNumberToName = new Dictionary<int, string>
+        public static Dictionary<int, string> bookNumberToName = new Dictionary<int, string> //names t
         {
            {10,"Gen"},{ 20,"Exo"},{ 30,"Lev"},{ 40,"Num"},
            { 50,"Deu"},{ 60,"Joz"},{ 70,"Sou"},{ 80,"Rut"},
