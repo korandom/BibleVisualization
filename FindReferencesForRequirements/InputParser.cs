@@ -36,8 +36,9 @@ namespace FindLinksForRequirements
         public List<Reference> Parse(string input) //FormatException if Wrong Format- correct format is <bookName> <chapterNumer>:<verseNumber>;<bookname ; [morereferences]
                                                    //and alike defined in DataStructures.Reference.cs
         {
+            if (string.IsNullOrEmpty(input)) throw new FormatException("No requirement input");
             List<Reference> references = new List<Reference>();
-            string[] devided = input.Split(';');
+            string[] devided = input.Split(';', StringSplitOptions.RemoveEmptyEntries);
             foreach (string individual in devided)
             {
                 string withBookNumber = ChangeNameForNumber(individual);

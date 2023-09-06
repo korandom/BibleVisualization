@@ -55,10 +55,7 @@ namespace FindLinksForRequirements
                 {
                     foreach (Link link in dictionary[book][hash])
                     {
-
                         links.Add(link);
-
-
                     }
 
                 }
