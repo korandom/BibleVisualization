@@ -68,7 +68,7 @@ namespace DataStructures
             if (requirement.chapterStart == 0)
                 return fits;
             bool sameChapter = chapterStart == requirement.chapterStart && (chapterEnd == 0 || chapterEnd == chapterStart);
-            if (requirement.verseStart == 0 && requirement.chapterEnd == 0)
+            if (requirement.verseStart == 0 && (requirement.chapterEnd == 0 || requirement.chapterEnd == requirement.chapterStart))
             {
                 fits &= sameChapter;
                 return fits;
@@ -78,7 +78,7 @@ namespace DataStructures
                 fits &= FitsIntoChapters(requirement);
                 return fits;
             }
-            if (requirement.chapterEnd == 0)
+            if (requirement.chapterEnd == 0 || requirement.chapterEnd == requirement.chapterStart)
             {
                 fits &= sameChapter;
                 if(requirement.verseEnd == 0)
@@ -86,8 +86,8 @@ namespace DataStructures
                     fits &= requirement.verseStart == verseStart && verseEnd == 0;
                     return fits;
                 }
-
-                fits &= requirement.verseStart <= verseStart &&  requirement.verseEnd >= verseEnd;
+                int verseEndImag = verseEnd == 0 ? verseStart : verseEnd;
+                fits &= requirement.verseStart <= verseStart &&  requirement.verseEnd >= verseEndImag;
                 return fits;
             }
             fits &= FitsIntoChapters(requirement) && FitsIntoMultipleVerses(requirement);
@@ -142,6 +142,7 @@ namespace DataStructures
                 }
                 else { throw new FormatException("Invalid Delimeters or Characters"); }
             }
+            if(number != 0) targetNumbers.Add(number);
             int count = targetNumbers.Count;
             int delCount = targetDelimeters.Count;
 
