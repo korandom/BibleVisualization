@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    internal class SearchBoxRequierement
+    public class SearchBoxRequierement
     {
+        public int currentBibleIndex;
         public string currentBible;
-        List<string> bibleNames= new List<string>();
-        string requirement1="";
-        string requirement2="";
-        int stateIndex=0;
-        bool addedRequirement=false;
+        public List<string> bibleNames= new List<string>();
+        public string requirement1="";
+        public string requirement2="";
+        public int stateIndex=0;
+        public bool addedRequirement=false;
 
         public SearchBoxRequierement(string path)
         {
@@ -25,10 +26,15 @@ namespace ViewModel
                 bibleNames.Add(Path.GetFileName(file));
             }
             currentBible = ConfigurationManager.AppSettings.Get("FirstPickBible")??"";
+            currentBibleIndex = bibleNames.IndexOf(currentBible);
         }
         public void AddRequirement() => addedRequirement = true;
         public void RemoveRequirement() => addedRequirement = false;
         public void ChangeStateIndex(int index) => stateIndex = index;
-        public void ChangeBible(string bible) => currentBible = bible;
+        public void ChangeBible(int index)
+        {
+            currentBible = bibleNames[index];
+            currentBibleIndex = index;
+        }
     }
 }
