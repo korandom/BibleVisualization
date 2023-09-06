@@ -37,7 +37,7 @@ namespace Preprocessing
                     }
                     try
                     {
-                        List<Reference> target = stringTarget.ToReference();
+                        List<Reference> target = stringTarget.ToReference(); 
                         foreach (Reference single in target)
                         {
                             targets.Add(single);
