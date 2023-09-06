@@ -15,11 +15,6 @@ namespace FindReferencesForRequirements
             this.pathBible = pathBible;
             verses = LoadBible();
         }
-        public void ChangePath(string path)
-        {
-            pathBible = path;
-            verses = LoadBible();
-        }
         private Dictionary<(int, int), List<string>> LoadBible()
         {
             Dictionary<(int, int), List<string>> verses = new Dictionary<(int, int), List<string>>();
@@ -119,11 +114,16 @@ namespace FindReferencesForRequirements
         }
         private bool Next(out Verse verse)
         {
-            if (!initialized && Initialize())
+            if (!initialized)
             {
-                initialized = true;
-                verse = current;
-                return true;
+                if (Initialize())
+                {
+                    initialized = true;
+                    verse = current;
+                    return true;
+                }
+                verse = new Verse();
+                return false;
             }
             if (verses[(current.book, current.chapter)].Count >= current.verse + 1)
             {
