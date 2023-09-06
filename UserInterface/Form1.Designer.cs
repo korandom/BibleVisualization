@@ -35,20 +35,20 @@
             RequirementTextBox2 = new TextBox();
             SearchButton = new Button();
             label1 = new Label();
-            label4 = new Label();
-            label2 = new Label();
             label3 = new Label();
             StateTrackBar = new TrackBar();
             RequirementTextBox1 = new TextBox();
             PlusButton = new Button();
-            comboBox1 = new ComboBox();
+            BibleChooseBox = new ComboBox();
+            label2 = new Label();
+            label4 = new Label();
             MainLayoutSplitContainer3 = new SplitContainer();
             MainLayoutSplitContainer4 = new SplitContainer();
             versesRequirementSplitContainer = new SplitContainer();
             RequirementLabel = new Label();
             RequirementVersesLabel = new Label();
             RequirementTextBox = new RichTextBox();
-            tableLayoutPanel1 = new TableLayoutPanel();
+            FoundVersesTable = new TableLayoutPanel();
             TableLink5 = new TableLayoutPanel();
             TargetLabel5 = new Label();
             SourceButton5 = new Button();
@@ -122,7 +122,7 @@
             versesRequirementSplitContainer.Panel1.SuspendLayout();
             versesRequirementSplitContainer.Panel2.SuspendLayout();
             versesRequirementSplitContainer.SuspendLayout();
-            tableLayoutPanel1.SuspendLayout();
+            FoundVersesTable.SuspendLayout();
             TableLink5.SuspendLayout();
             TableLink4.SuspendLayout();
             TableLink3.SuspendLayout();
@@ -148,7 +148,7 @@
             // MainLayoutSplitContainer1.Panel2
             // 
             MainLayoutSplitContainer1.Panel2.BackColor = SystemColors.InactiveCaption;
-            MainLayoutSplitContainer1.Panel2.Controls.Add(tableLayoutPanel1);
+            MainLayoutSplitContainer1.Panel2.Controls.Add(FoundVersesTable);
             MainLayoutSplitContainer1.Size = new Size(1223, 694);
             MainLayoutSplitContainer1.SplitterDistance = 800;
             MainLayoutSplitContainer1.TabIndex = 0;
@@ -190,7 +190,7 @@
             tableLayoutPanel2.Controls.Add(StateTrackBar, 2, 0);
             tableLayoutPanel2.Controls.Add(RequirementTextBox1, 3, 0);
             tableLayoutPanel2.Controls.Add(PlusButton, 3, 2);
-            tableLayoutPanel2.Controls.Add(comboBox1, 0, 0);
+            tableLayoutPanel2.Controls.Add(BibleChooseBox, 0, 0);
             tableLayoutPanel2.Controls.Add(label2, 1, 2);
             tableLayoutPanel2.Controls.Add(label4, 1, 1);
             tableLayoutPanel2.Dock = DockStyle.Fill;
@@ -235,28 +235,6 @@
             label1.TabIndex = 4;
             label1.Text = "all";
             label1.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label4
-            // 
-            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label4.AutoSize = true;
-            label4.Location = new Point(222, 24);
-            label4.Name = "label4";
-            label4.Size = new Size(69, 24);
-            label4.TabIndex = 7;
-            label4.Text = "from";
-            label4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // label2
-            // 
-            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            label2.AutoSize = true;
-            label2.Location = new Point(222, 48);
-            label2.Name = "label2";
-            label2.Size = new Size(69, 24);
-            label2.TabIndex = 5;
-            label2.Text = "to";
-            label2.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -305,16 +283,38 @@
             PlusButton.Text = "+";
             PlusButton.UseVisualStyleBackColor = true;
             // 
-            // comboBox1
+            // BibleChooseBox
             // 
-            comboBox1.Dock = DockStyle.Fill;
-            comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Bible1", "Bible2", "Bible3" });
-            comboBox1.Location = new Point(3, 3);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(213, 28);
-            comboBox1.TabIndex = 9;
+            BibleChooseBox.Dock = DockStyle.Fill;
+            BibleChooseBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            BibleChooseBox.FormattingEnabled = true;
+            BibleChooseBox.Items.AddRange(new object[] { "Bible1", "Bible2", "Bible3" });
+            BibleChooseBox.Location = new Point(3, 3);
+            BibleChooseBox.Name = "BibleChooseBox";
+            BibleChooseBox.Size = new Size(213, 28);
+            BibleChooseBox.TabIndex = 9;
+            // 
+            // label2
+            // 
+            label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label2.AutoSize = true;
+            label2.Location = new Point(222, 48);
+            label2.Name = "label2";
+            label2.Size = new Size(69, 24);
+            label2.TabIndex = 5;
+            label2.Text = "to";
+            label2.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // label4
+            // 
+            label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            label4.AutoSize = true;
+            label4.Location = new Point(222, 24);
+            label4.Name = "label4";
+            label4.Size = new Size(69, 24);
+            label4.TabIndex = 7;
+            label4.Text = "from";
+            label4.TextAlign = ContentAlignment.MiddleRight;
             // 
             // MainLayoutSplitContainer3
             // 
@@ -414,30 +414,30 @@
             RequirementTextBox.TabIndex = 0;
             RequirementTextBox.Text = resources.GetString("RequirementTextBox.Text");
             // 
-            // tableLayoutPanel1
+            // FoundVersesTable
             // 
-            tableLayoutPanel1.ColumnCount = 1;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Controls.Add(TableLink5, 0, 5);
-            tableLayoutPanel1.Controls.Add(TableLink4, 0, 4);
-            tableLayoutPanel1.Controls.Add(TableLink3, 0, 3);
-            tableLayoutPanel1.Controls.Add(TableLink2, 0, 2);
-            tableLayoutPanel1.Controls.Add(label5, 0, 0);
-            tableLayoutPanel1.Controls.Add(MoreButton, 0, 6);
-            tableLayoutPanel1.Controls.Add(TableLink1, 0, 1);
-            tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 0);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 7;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tableLayoutPanel1.Size = new Size(417, 692);
-            tableLayoutPanel1.TabIndex = 0;
+            FoundVersesTable.ColumnCount = 1;
+            FoundVersesTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            FoundVersesTable.Controls.Add(TableLink5, 0, 5);
+            FoundVersesTable.Controls.Add(TableLink4, 0, 4);
+            FoundVersesTable.Controls.Add(TableLink3, 0, 3);
+            FoundVersesTable.Controls.Add(TableLink2, 0, 2);
+            FoundVersesTable.Controls.Add(label5, 0, 0);
+            FoundVersesTable.Controls.Add(MoreButton, 0, 6);
+            FoundVersesTable.Controls.Add(TableLink1, 0, 1);
+            FoundVersesTable.Dock = DockStyle.Fill;
+            FoundVersesTable.Location = new Point(0, 0);
+            FoundVersesTable.Name = "FoundVersesTable";
+            FoundVersesTable.RowCount = 7;
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 20F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            FoundVersesTable.Size = new Size(417, 692);
+            FoundVersesTable.TabIndex = 0;
             // 
             // TableLink5
             // 
@@ -523,6 +523,7 @@
             FoundTextBox5.Dock = DockStyle.Fill;
             FoundTextBox5.Location = new Point(33, 43);
             FoundTextBox5.Name = "FoundTextBox5";
+            FoundTextBox5.ReadOnly = true;
             FoundTextBox5.Size = new Size(345, 70);
             FoundTextBox5.TabIndex = 0;
             FoundTextBox5.Text = "";
@@ -634,6 +635,7 @@
             FoundTextBox4.Dock = DockStyle.Fill;
             FoundTextBox4.Location = new Point(33, 43);
             FoundTextBox4.Name = "FoundTextBox4";
+            FoundTextBox4.ReadOnly = true;
             FoundTextBox4.Size = new Size(345, 70);
             FoundTextBox4.TabIndex = 0;
             FoundTextBox4.Text = "";
@@ -745,6 +747,7 @@
             FoundTextBox3.Dock = DockStyle.Fill;
             FoundTextBox3.Location = new Point(33, 43);
             FoundTextBox3.Name = "FoundTextBox3";
+            FoundTextBox3.ReadOnly = true;
             FoundTextBox3.Size = new Size(345, 70);
             FoundTextBox3.TabIndex = 0;
             FoundTextBox3.Text = "";
@@ -856,6 +859,7 @@
             FoundTextBox2.Dock = DockStyle.Fill;
             FoundTextBox2.Location = new Point(33, 43);
             FoundTextBox2.Name = "FoundTextBox2";
+            FoundTextBox2.ReadOnly = true;
             FoundTextBox2.Size = new Size(345, 70);
             FoundTextBox2.TabIndex = 0;
             FoundTextBox2.Text = "";
@@ -990,6 +994,7 @@
             FoundTextBox1.Dock = DockStyle.Fill;
             FoundTextBox1.Location = new Point(33, 43);
             FoundTextBox1.Name = "FoundTextBox1";
+            FoundTextBox1.ReadOnly = true;
             FoundTextBox1.Size = new Size(345, 70);
             FoundTextBox1.TabIndex = 0;
             FoundTextBox1.Text = "";
@@ -1123,8 +1128,8 @@
             versesRequirementSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)versesRequirementSplitContainer).EndInit();
             versesRequirementSplitContainer.ResumeLayout(false);
-            tableLayoutPanel1.ResumeLayout(false);
-            tableLayoutPanel1.PerformLayout();
+            FoundVersesTable.ResumeLayout(false);
+            FoundVersesTable.PerformLayout();
             TableLink5.ResumeLayout(false);
             TableLink5.PerformLayout();
             TableLink4.ResumeLayout(false);
@@ -1161,11 +1166,11 @@
         private Label label4;
         private TableLayoutPanel tableLayoutPanel2;
         private TextBox RequirementTextBox2;
-        private ComboBox comboBox1;
+        private ComboBox BibleChooseBox;
         private TableLayoutPanel tableLayoutPanel5;
         private RichTextBox richTextBox4;
         private Button button10;
-        private TableLayoutPanel tableLayoutPanel1;
+        private TableLayoutPanel FoundVersesTable;
         private Label label5;
         private Button MoreButton;
         private TableLayoutPanel TableLink1;

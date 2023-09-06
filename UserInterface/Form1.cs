@@ -4,21 +4,24 @@ namespace UserInterface
 {
     public partial class Form1 : Form
     {
-
+        ModelViewRequirementBase MV;
         public Form1()
         {
+            MV = new ModelViewRequirementBase();
             InitializeComponent();
-
+            DataBind();
         }
-
-        private void MainLayoutSplitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        private void DataBind()
+        {
+            MoreButton.DataBindings.Add("Visible", MV, "More");
+        }
+        private void CreateLinkTable(int row)
         {
 
         }
 
-        private void MainLayoutSplitContainer1_Panel2_Paint_1(object sender, PaintEventArgs e)
-        {
 
-        }
+
+
     }
 }
