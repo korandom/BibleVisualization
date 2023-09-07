@@ -9,6 +9,7 @@ using DataStructures;
 using FindLinksForRequirements;
 using FindReferencesForRequirements;
 using System.ComponentModel;
+using Preprocessing;
 
 namespace ViewModel
 {
@@ -67,8 +68,31 @@ namespace ViewModel
             rLinkLoader = GetLoader(sourcesPath);
             More = false;
             Previous = false;
-            
-            //TODO - if not up to date - preprocess
+
+            Preprocess(sourcesPath);
+        }
+        private void Preprocess(string sourcepath)
+        {
+            string? preprocess = ConfigurationManager.AppSettings.Get("PreProcessingNeeded");
+            if(preprocess != null && preprocess =="true") 
+            {
+                Preprocessor p = new Preprocessor(sourcepath + "\\ToPreprocess", sourcepath + "\\Preprocessed");
+                string? list = ConfigurationManager.AppSettings.Get("DataToPreprocessList");
+                if (list == null) return;
+                if (list == "")
+                {
+                    p.ProcessAll();
+                }
+                else
+                {
+                    List<string> dataFiles = GetList(list);
+                    foreach(string file in dataFiles)
+                    {
+                        p.Process(file);
+                    }
+                }
+
+            }
         }
         private ReferenceLinkLoader GetLoader(string sourcePath)
         {
@@ -126,11 +150,16 @@ namespace ViewModel
                 int count = _links.Count;
                 if (count> 0)
                 {
-                    requirementBox.LoadProperties($"{searchBox.requirement1};{searchBox.requirement2}");
+                    string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
+                    requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");
                     int numberOfLinkLeft = (count  > numberOfLinkBoxes) ? numberOfLinkBoxes: count;
                     for (int i = 0; i < numberOfLinkLeft; i++)
                     {
                         linkBoxes[i].LoadProperties(_links[i]);
+                    }
+                    for (int i = numberOfLinkLeft; i < numberOfLinkBoxes; i++)
+                    {
+                        linkBoxes[i].Visible = false;
                     }
                 }
                 else requirementBox.Text = "No links found";
