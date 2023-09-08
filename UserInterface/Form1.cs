@@ -13,6 +13,15 @@ namespace UserInterface
             MV = new ModelViewRequirementBase();
             InitializeComponent();
             DataBind();
+            this.AcceptButton = SearchButton;
+        }
+        public Form1(string[] requirementArray) : this()
+        {
+            string requirement = string.Join(" ", requirementArray);
+            MV.searchBox.requirement1 = requirement;
+            MV.searchBox.requirement2 = "";
+            MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
+            MV.Search();
         }
         private void DataBind()
         {

@@ -297,7 +297,6 @@
             // 
             // MainLayoutSplitContainer4
             // 
-            MainLayoutSplitContainer4.BorderStyle = BorderStyle.FixedSingle;
             MainLayoutSplitContainer4.Dock = DockStyle.Fill;
             MainLayoutSplitContainer4.IsSplitterFixed = true;
             MainLayoutSplitContainer4.Location = new Point(0, 0);
@@ -306,13 +305,13 @@
             // 
             // MainLayoutSplitContainer4.Panel1
             // 
-            MainLayoutSplitContainer4.Panel1.BackColor = SystemColors.ControlDarkDark;
+            MainLayoutSplitContainer4.Panel1.BackColor = SystemColors.Control;
             // 
             // MainLayoutSplitContainer4.Panel2
             // 
-            MainLayoutSplitContainer4.Panel2.BackColor = SystemColors.HotTrack;
-            MainLayoutSplitContainer4.Size = new Size(400, 628);
-            MainLayoutSplitContainer4.SplitterDistance = 140;
+            MainLayoutSplitContainer4.Panel2.BackColor = SystemColors.Control;
+            MainLayoutSplitContainer4.Size = new Size(398, 626);
+            MainLayoutSplitContainer4.SplitterDistance = 139;
             MainLayoutSplitContainer4.TabIndex = 0;
             // 
             // versesRequirementSplitContainer

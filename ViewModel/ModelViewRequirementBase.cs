@@ -144,6 +144,7 @@ namespace ViewModel
         {
             try
             {
+                currentLinkIndex = 0;
                 if (searchBox.addedRequirement)
                     LoadLinksTwo();
                 else LoadLinksOne();
