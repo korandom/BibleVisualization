@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             MainLayoutSplitContainer1 = new SplitContainer();
-            MainLayoutSplitContainer2 = new SplitContainer();
             tableLayoutPanel2 = new TableLayoutPanel();
             RequirementTextBox2 = new TextBox();
             SearchButton = new Button();
@@ -41,17 +40,21 @@
             BibleChooseBox = new ComboBox();
             label2 = new Label();
             label4 = new Label();
-            MainLayoutSplitContainer3 = new SplitContainer();
-            MainLayoutSplitContainer4 = new SplitContainer();
+            VerseSplitContainer = new SplitContainer();
             versesRequirementSplitContainer = new SplitContainer();
             RequirementLabel = new Label();
             RequirementVersesLabel = new Label();
             RequirementTextBox = new RichTextBox();
             FoundVersesTable = new TableLayoutPanel();
-            label5 = new Label();
-            MorePreviousSplitContainer1 = new SplitContainer();
+            splitContainer2 = new SplitContainer();
             PreviousButton = new Button();
             MoreButton = new Button();
+            tableLayoutPanel1 = new TableLayoutPanel();
+            label7 = new Label();
+            label8 = new Label();
+            button2 = new Button();
+            label5 = new Label();
+            button3 = new Button();
             tableLayoutPanel5 = new TableLayoutPanel();
             richTextBox4 = new RichTextBox();
             button10 = new Button();
@@ -62,27 +65,22 @@
             MainLayoutSplitContainer1.Panel1.SuspendLayout();
             MainLayoutSplitContainer1.Panel2.SuspendLayout();
             MainLayoutSplitContainer1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer2).BeginInit();
-            MainLayoutSplitContainer2.Panel1.SuspendLayout();
-            MainLayoutSplitContainer2.Panel2.SuspendLayout();
-            MainLayoutSplitContainer2.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)StateTrackBar).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer3).BeginInit();
-            MainLayoutSplitContainer3.Panel1.SuspendLayout();
-            MainLayoutSplitContainer3.Panel2.SuspendLayout();
-            MainLayoutSplitContainer3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer4).BeginInit();
-            MainLayoutSplitContainer4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)VerseSplitContainer).BeginInit();
+            VerseSplitContainer.Panel1.SuspendLayout();
+            VerseSplitContainer.Panel2.SuspendLayout();
+            VerseSplitContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)versesRequirementSplitContainer).BeginInit();
             versesRequirementSplitContainer.Panel1.SuspendLayout();
             versesRequirementSplitContainer.Panel2.SuspendLayout();
             versesRequirementSplitContainer.SuspendLayout();
             FoundVersesTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)MorePreviousSplitContainer1).BeginInit();
-            MorePreviousSplitContainer1.Panel1.SuspendLayout();
-            MorePreviousSplitContainer1.Panel2.SuspendLayout();
-            MorePreviousSplitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
+            splitContainer2.Panel1.SuspendLayout();
+            splitContainer2.Panel2.SuspendLayout();
+            splitContainer2.SuspendLayout();
+            tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel5.SuspendLayout();
             tableLayoutPanel8.SuspendLayout();
             SuspendLayout();
@@ -91,46 +89,28 @@
             // 
             MainLayoutSplitContainer1.BorderStyle = BorderStyle.FixedSingle;
             MainLayoutSplitContainer1.Dock = DockStyle.Fill;
+            MainLayoutSplitContainer1.FixedPanel = FixedPanel.Panel1;
             MainLayoutSplitContainer1.IsSplitterFixed = true;
             MainLayoutSplitContainer1.Location = new Point(0, 0);
             MainLayoutSplitContainer1.Name = "MainLayoutSplitContainer1";
+            MainLayoutSplitContainer1.Orientation = Orientation.Horizontal;
             // 
             // MainLayoutSplitContainer1.Panel1
             // 
             MainLayoutSplitContainer1.Panel1.BackColor = SystemColors.Control;
-            MainLayoutSplitContainer1.Panel1.Controls.Add(MainLayoutSplitContainer2);
+            MainLayoutSplitContainer1.Panel1.Controls.Add(tableLayoutPanel2);
             // 
             // MainLayoutSplitContainer1.Panel2
             // 
             MainLayoutSplitContainer1.Panel2.BackColor = SystemColors.InactiveCaption;
-            MainLayoutSplitContainer1.Panel2.Controls.Add(FoundVersesTable);
+            MainLayoutSplitContainer1.Panel2.Controls.Add(VerseSplitContainer);
             MainLayoutSplitContainer1.Size = new Size(1223, 738);
-            MainLayoutSplitContainer1.SplitterDistance = 800;
+            MainLayoutSplitContainer1.SplitterDistance = 90;
             MainLayoutSplitContainer1.TabIndex = 0;
-            // 
-            // MainLayoutSplitContainer2
-            // 
-            MainLayoutSplitContainer2.BorderStyle = BorderStyle.FixedSingle;
-            MainLayoutSplitContainer2.Dock = DockStyle.Fill;
-            MainLayoutSplitContainer2.IsSplitterFixed = true;
-            MainLayoutSplitContainer2.Location = new Point(0, 0);
-            MainLayoutSplitContainer2.Name = "MainLayoutSplitContainer2";
-            MainLayoutSplitContainer2.Orientation = Orientation.Horizontal;
-            // 
-            // MainLayoutSplitContainer2.Panel1
-            // 
-            MainLayoutSplitContainer2.Panel1.BackColor = SystemColors.AppWorkspace;
-            MainLayoutSplitContainer2.Panel1.Controls.Add(tableLayoutPanel2);
-            // 
-            // MainLayoutSplitContainer2.Panel2
-            // 
-            MainLayoutSplitContainer2.Panel2.Controls.Add(MainLayoutSplitContainer3);
-            MainLayoutSplitContainer2.Size = new Size(800, 738);
-            MainLayoutSplitContainer2.SplitterDistance = 106;
-            MainLayoutSplitContainer2.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
+            tableLayoutPanel2.BackColor = Color.Silver;
             tableLayoutPanel2.ColumnCount = 6;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 27.5362282F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 9.498617F));
@@ -156,27 +136,27 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 25F));
-            tableLayoutPanel2.Size = new Size(798, 104);
-            tableLayoutPanel2.TabIndex = 0;
+            tableLayoutPanel2.Size = new Size(1221, 88);
+            tableLayoutPanel2.TabIndex = 3;
             // 
             // RequirementTextBox2
             // 
             RequirementTextBox2.Dock = DockStyle.Fill;
             RequirementTextBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            RequirementTextBox2.Location = new Point(390, 55);
+            RequirementTextBox2.Location = new Point(597, 47);
             RequirementTextBox2.Name = "RequirementTextBox2";
             tableLayoutPanel2.SetRowSpan(RequirementTextBox2, 2);
-            RequirementTextBox2.Size = new Size(324, 30);
+            RequirementTextBox2.Size = new Size(500, 30);
             RequirementTextBox2.TabIndex = 8;
             RequirementTextBox2.Visible = false;
             // 
             // SearchButton
             // 
             SearchButton.Dock = DockStyle.Fill;
-            SearchButton.Location = new Point(720, 3);
+            SearchButton.Location = new Point(1103, 3);
             SearchButton.Name = "SearchButton";
             tableLayoutPanel2.SetRowSpan(SearchButton, 4);
-            SearchButton.Size = new Size(75, 98);
+            SearchButton.Size = new Size(115, 82);
             SearchButton.TabIndex = 2;
             SearchButton.Text = "Search";
             SearchButton.UseVisualStyleBackColor = true;
@@ -186,9 +166,9 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(222, 0);
+            label1.Location = new Point(339, 0);
             label1.Name = "label1";
-            label1.Size = new Size(69, 26);
+            label1.Size = new Size(109, 22);
             label1.TabIndex = 4;
             label1.Text = "all";
             label1.TextAlign = ContentAlignment.MiddleRight;
@@ -197,9 +177,9 @@
             // 
             label3.AutoSize = true;
             label3.Dock = DockStyle.Fill;
-            label3.Location = new Point(222, 78);
+            label3.Location = new Point(339, 66);
             label3.Name = "label3";
-            label3.Size = new Size(69, 26);
+            label3.Size = new Size(109, 22);
             label3.TabIndex = 6;
             label3.Text = "inside";
             label3.TextAlign = ContentAlignment.MiddleRight;
@@ -207,13 +187,13 @@
             // StateTrackBar
             // 
             StateTrackBar.Dock = DockStyle.Fill;
-            StateTrackBar.Location = new Point(297, 3);
+            StateTrackBar.Location = new Point(454, 3);
             StateTrackBar.Maximum = 3;
             StateTrackBar.Name = "StateTrackBar";
             StateTrackBar.Orientation = Orientation.Vertical;
             StateTrackBar.RightToLeft = RightToLeft.Yes;
             tableLayoutPanel2.SetRowSpan(StateTrackBar, 4);
-            StateTrackBar.Size = new Size(49, 98);
+            StateTrackBar.Size = new Size(79, 82);
             StateTrackBar.TabIndex = 3;
             StateTrackBar.TickStyle = TickStyle.TopLeft;
             StateTrackBar.Value = 3;
@@ -223,19 +203,19 @@
             tableLayoutPanel2.SetColumnSpan(RequirementTextBox1, 2);
             RequirementTextBox1.Dock = DockStyle.Fill;
             RequirementTextBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            RequirementTextBox1.Location = new Point(352, 3);
+            RequirementTextBox1.Location = new Point(539, 3);
             RequirementTextBox1.Name = "RequirementTextBox1";
             tableLayoutPanel2.SetRowSpan(RequirementTextBox1, 2);
-            RequirementTextBox1.Size = new Size(362, 30);
+            RequirementTextBox1.Size = new Size(558, 30);
             RequirementTextBox1.TabIndex = 0;
             // 
             // PlusButton
             // 
             PlusButton.Dock = DockStyle.Fill;
-            PlusButton.Location = new Point(352, 55);
+            PlusButton.Location = new Point(539, 47);
             PlusButton.Name = "PlusButton";
             tableLayoutPanel2.SetRowSpan(PlusButton, 2);
-            PlusButton.Size = new Size(32, 46);
+            PlusButton.Size = new Size(52, 38);
             PlusButton.TabIndex = 1;
             PlusButton.Text = "+";
             PlusButton.UseVisualStyleBackColor = true;
@@ -249,7 +229,7 @@
             BibleChooseBox.Items.AddRange(new object[] { "Bible1", "Bible2", "Bible3" });
             BibleChooseBox.Location = new Point(3, 3);
             BibleChooseBox.Name = "BibleChooseBox";
-            BibleChooseBox.Size = new Size(213, 28);
+            BibleChooseBox.Size = new Size(330, 28);
             BibleChooseBox.TabIndex = 9;
             BibleChooseBox.SelectedIndexChanged += BibleChooseBox_SelectedIndexChanged;
             // 
@@ -257,9 +237,9 @@
             // 
             label2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label2.AutoSize = true;
-            label2.Location = new Point(222, 52);
+            label2.Location = new Point(339, 44);
             label2.Name = "label2";
-            label2.Size = new Size(69, 26);
+            label2.Size = new Size(109, 22);
             label2.TabIndex = 5;
             label2.Text = "to";
             label2.TextAlign = ContentAlignment.MiddleRight;
@@ -268,51 +248,32 @@
             // 
             label4.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             label4.AutoSize = true;
-            label4.Location = new Point(222, 26);
+            label4.Location = new Point(339, 22);
             label4.Name = "label4";
-            label4.Size = new Size(69, 26);
+            label4.Size = new Size(109, 22);
             label4.TabIndex = 7;
             label4.Text = "from";
             label4.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // MainLayoutSplitContainer3
+            // VerseSplitContainer
             // 
-            MainLayoutSplitContainer3.BorderStyle = BorderStyle.FixedSingle;
-            MainLayoutSplitContainer3.Dock = DockStyle.Fill;
-            MainLayoutSplitContainer3.IsSplitterFixed = true;
-            MainLayoutSplitContainer3.Location = new Point(0, 0);
-            MainLayoutSplitContainer3.Name = "MainLayoutSplitContainer3";
+            VerseSplitContainer.BorderStyle = BorderStyle.FixedSingle;
+            VerseSplitContainer.Dock = DockStyle.Fill;
+            VerseSplitContainer.IsSplitterFixed = true;
+            VerseSplitContainer.Location = new Point(0, 0);
+            VerseSplitContainer.Name = "VerseSplitContainer";
             // 
-            // MainLayoutSplitContainer3.Panel1
+            // VerseSplitContainer.Panel1
             // 
-            MainLayoutSplitContainer3.Panel1.Controls.Add(MainLayoutSplitContainer4);
+            VerseSplitContainer.Panel1.Controls.Add(versesRequirementSplitContainer);
             // 
-            // MainLayoutSplitContainer3.Panel2
+            // VerseSplitContainer.Panel2
             // 
-            MainLayoutSplitContainer3.Panel2.BackColor = Color.LightSteelBlue;
-            MainLayoutSplitContainer3.Panel2.Controls.Add(versesRequirementSplitContainer);
-            MainLayoutSplitContainer3.Size = new Size(800, 628);
-            MainLayoutSplitContainer3.SplitterDistance = 400;
-            MainLayoutSplitContainer3.TabIndex = 0;
-            // 
-            // MainLayoutSplitContainer4
-            // 
-            MainLayoutSplitContainer4.Dock = DockStyle.Fill;
-            MainLayoutSplitContainer4.IsSplitterFixed = true;
-            MainLayoutSplitContainer4.Location = new Point(0, 0);
-            MainLayoutSplitContainer4.Name = "MainLayoutSplitContainer4";
-            MainLayoutSplitContainer4.Orientation = Orientation.Horizontal;
-            // 
-            // MainLayoutSplitContainer4.Panel1
-            // 
-            MainLayoutSplitContainer4.Panel1.BackColor = SystemColors.Control;
-            // 
-            // MainLayoutSplitContainer4.Panel2
-            // 
-            MainLayoutSplitContainer4.Panel2.BackColor = SystemColors.Control;
-            MainLayoutSplitContainer4.Size = new Size(398, 626);
-            MainLayoutSplitContainer4.SplitterDistance = 139;
-            MainLayoutSplitContainer4.TabIndex = 0;
+            VerseSplitContainer.Panel2.Controls.Add(FoundVersesTable);
+            VerseSplitContainer.Size = new Size(1223, 644);
+            VerseSplitContainer.SplitterDistance = 407;
+            VerseSplitContainer.TabIndex = 0;
+            VerseSplitContainer.Visible = false;
             // 
             // versesRequirementSplitContainer
             // 
@@ -330,9 +291,9 @@
             // 
             versesRequirementSplitContainer.Panel2.Controls.Add(RequirementTextBox);
             versesRequirementSplitContainer.Panel2.Padding = new Padding(5);
-            versesRequirementSplitContainer.Size = new Size(394, 626);
-            versesRequirementSplitContainer.SplitterDistance = 70;
-            versesRequirementSplitContainer.TabIndex = 0;
+            versesRequirementSplitContainer.Size = new Size(405, 642);
+            versesRequirementSplitContainer.SplitterDistance = 73;
+            versesRequirementSplitContainer.TabIndex = 3;
             // 
             // RequirementLabel
             // 
@@ -368,21 +329,23 @@
             RequirementTextBox.Location = new Point(5, 5);
             RequirementTextBox.Name = "RequirementTextBox";
             RequirementTextBox.ReadOnly = true;
-            RequirementTextBox.Size = new Size(384, 542);
+            RequirementTextBox.Size = new Size(395, 555);
             RequirementTextBox.TabIndex = 0;
             RequirementTextBox.Text = "";
             // 
             // FoundVersesTable
             // 
+            FoundVersesTable.BackColor = SystemColors.GradientInactiveCaption;
             FoundVersesTable.ColumnCount = 1;
             FoundVersesTable.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            FoundVersesTable.Controls.Add(label5, 0, 0);
-            FoundVersesTable.Controls.Add(MorePreviousSplitContainer1, 0, 8);
+            FoundVersesTable.Controls.Add(splitContainer2, 0, 8);
+            FoundVersesTable.Controls.Add(tableLayoutPanel1, 0, 0);
             FoundVersesTable.Dock = DockStyle.Fill;
+            FoundVersesTable.GrowStyle = TableLayoutPanelGrowStyle.FixedSize;
             FoundVersesTable.Location = new Point(0, 0);
             FoundVersesTable.Name = "FoundVersesTable";
             FoundVersesTable.RowCount = 9;
-            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
@@ -391,45 +354,33 @@
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Percent, 14.2857141F));
             FoundVersesTable.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            FoundVersesTable.Size = new Size(417, 736);
+            FoundVersesTable.Size = new Size(810, 642);
             FoundVersesTable.TabIndex = 0;
             // 
-            // label5
+            // splitContainer2
             // 
-            label5.AutoSize = true;
-            label5.Dock = DockStyle.Fill;
-            label5.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.Location = new Point(3, 0);
-            label5.Name = "label5";
-            label5.Padding = new Padding(5);
-            label5.Size = new Size(411, 40);
-            label5.TabIndex = 1;
-            label5.Text = "Verses of Found Links";
-            label5.TextAlign = ContentAlignment.MiddleLeft;
+            splitContainer2.Dock = DockStyle.Fill;
+            splitContainer2.IsSplitterFixed = true;
+            splitContainer2.Location = new Point(3, 599);
+            splitContainer2.Name = "splitContainer2";
             // 
-            // MorePreviousSplitContainer1
+            // splitContainer2.Panel1
             // 
-            MorePreviousSplitContainer1.Dock = DockStyle.Fill;
-            MorePreviousSplitContainer1.Location = new Point(3, 694);
-            MorePreviousSplitContainer1.Name = "MorePreviousSplitContainer1";
+            splitContainer2.Panel1.Controls.Add(PreviousButton);
             // 
-            // MorePreviousSplitContainer1.Panel1
+            // splitContainer2.Panel2
             // 
-            MorePreviousSplitContainer1.Panel1.Controls.Add(PreviousButton);
-            // 
-            // MorePreviousSplitContainer1.Panel2
-            // 
-            MorePreviousSplitContainer1.Panel2.Controls.Add(MoreButton);
-            MorePreviousSplitContainer1.Size = new Size(411, 39);
-            MorePreviousSplitContainer1.SplitterDistance = 205;
-            MorePreviousSplitContainer1.TabIndex = 2;
+            splitContainer2.Panel2.Controls.Add(MoreButton);
+            splitContainer2.Size = new Size(804, 40);
+            splitContainer2.SplitterDistance = 402;
+            splitContainer2.TabIndex = 0;
             // 
             // PreviousButton
             // 
             PreviousButton.Dock = DockStyle.Fill;
             PreviousButton.Location = new Point(0, 0);
             PreviousButton.Name = "PreviousButton";
-            PreviousButton.Size = new Size(205, 39);
+            PreviousButton.Size = new Size(402, 40);
             PreviousButton.TabIndex = 3;
             PreviousButton.Text = "Previous";
             PreviousButton.UseVisualStyleBackColor = true;
@@ -439,10 +390,83 @@
             MoreButton.Dock = DockStyle.Fill;
             MoreButton.Location = new Point(0, 0);
             MoreButton.Name = "MoreButton";
-            MoreButton.Size = new Size(202, 39);
+            MoreButton.Size = new Size(398, 40);
             MoreButton.TabIndex = 2;
             MoreButton.Text = "More";
             MoreButton.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            tableLayoutPanel1.ColumnCount = 5;
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 31.7460365F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.8730145F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.8730145F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15.8730145F));
+            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 20.6349163F));
+            tableLayoutPanel1.Controls.Add(label7, 0, 0);
+            tableLayoutPanel1.Controls.Add(label8, 1, 0);
+            tableLayoutPanel1.Controls.Add(button2, 2, 0);
+            tableLayoutPanel1.Controls.Add(label5, 4, 0);
+            tableLayoutPanel1.Controls.Add(button3, 3, 0);
+            tableLayoutPanel1.Dock = DockStyle.Fill;
+            tableLayoutPanel1.Location = new Point(3, 3);
+            tableLayoutPanel1.Name = "tableLayoutPanel1";
+            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel1.Size = new Size(804, 44);
+            tableLayoutPanel1.TabIndex = 1;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Dock = DockStyle.Fill;
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Location = new Point(3, 0);
+            label7.Name = "label7";
+            label7.Padding = new Padding(5);
+            label7.Size = new Size(249, 44);
+            label7.TabIndex = 1;
+            label7.Text = "Verses of Found Links";
+            label7.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Dock = DockStyle.Right;
+            label8.Location = new Point(331, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(48, 44);
+            label8.TabIndex = 2;
+            label8.Text = "Show:";
+            label8.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // button2
+            // 
+            button2.Dock = DockStyle.Fill;
+            button2.Location = new Point(385, 3);
+            button2.Name = "button2";
+            button2.Size = new Size(121, 38);
+            button2.TabIndex = 3;
+            button2.Text = "Source";
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(639, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(0, 20);
+            label5.TabIndex = 0;
+            // 
+            // button3
+            // 
+            button3.Dock = DockStyle.Fill;
+            button3.Location = new Point(512, 3);
+            button3.Name = "button3";
+            button3.Size = new Size(121, 38);
+            button3.TabIndex = 2;
+            button3.Text = "Target";
+            button3.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel5
             // 
@@ -532,30 +556,25 @@
             MainLayoutSplitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer1).EndInit();
             MainLayoutSplitContainer1.ResumeLayout(false);
-            MainLayoutSplitContainer2.Panel1.ResumeLayout(false);
-            MainLayoutSplitContainer2.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer2).EndInit();
-            MainLayoutSplitContainer2.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)StateTrackBar).EndInit();
-            MainLayoutSplitContainer3.Panel1.ResumeLayout(false);
-            MainLayoutSplitContainer3.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer3).EndInit();
-            MainLayoutSplitContainer3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer4).EndInit();
-            MainLayoutSplitContainer4.ResumeLayout(false);
+            VerseSplitContainer.Panel1.ResumeLayout(false);
+            VerseSplitContainer.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)VerseSplitContainer).EndInit();
+            VerseSplitContainer.ResumeLayout(false);
             versesRequirementSplitContainer.Panel1.ResumeLayout(false);
             versesRequirementSplitContainer.Panel1.PerformLayout();
             versesRequirementSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)versesRequirementSplitContainer).EndInit();
             versesRequirementSplitContainer.ResumeLayout(false);
             FoundVersesTable.ResumeLayout(false);
-            FoundVersesTable.PerformLayout();
-            MorePreviousSplitContainer1.Panel1.ResumeLayout(false);
-            MorePreviousSplitContainer1.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)MorePreviousSplitContainer1).EndInit();
-            MorePreviousSplitContainer1.ResumeLayout(false);
+            splitContainer2.Panel1.ResumeLayout(false);
+            splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)splitContainer2).EndInit();
+            splitContainer2.ResumeLayout(false);
+            tableLayoutPanel1.ResumeLayout(false);
+            tableLayoutPanel1.PerformLayout();
             tableLayoutPanel5.ResumeLayout(false);
             tableLayoutPanel8.ResumeLayout(false);
             tableLayoutPanel8.PerformLayout();
@@ -565,34 +584,38 @@
         #endregion
 
         private SplitContainer MainLayoutSplitContainer1;
-        private SplitContainer MainLayoutSplitContainer2;
-        private SplitContainer MainLayoutSplitContainer3;
         private SplitContainer MainLayoutSplitContainer4;
-        private Label RequirementVersesLabel;
-        private SplitContainer versesRequirementSplitContainer;
-        private RichTextBox RequirementTextBox;
-        private Label RequirementLabel;
-        private Button PlusButton;
-        private TextBox RequirementTextBox1;
-        private Button SearchButton;
-        private TrackBar StateTrackBar;
-        private Label label3;
-        private Label label2;
-        private Label label1;
-        private Label label4;
-        private TableLayoutPanel tableLayoutPanel2;
-        private TextBox RequirementTextBox2;
-        private ComboBox BibleChooseBox;
         private TableLayoutPanel tableLayoutPanel5;
         private RichTextBox richTextBox4;
         private Button button10;
-        private TableLayoutPanel FoundVersesTable;
-        private Label label5;
-        private Button MoreButton;
         private TableLayoutPanel tableLayoutPanel8;
         private Label label6;
         private Button button1;
-        private SplitContainer MorePreviousSplitContainer1;
+        private SplitContainer VerseSplitContainer;
+        private SplitContainer versesRequirementSplitContainer;
+        private Label RequirementLabel;
+        private Label RequirementVersesLabel;
+        private RichTextBox RequirementTextBox;
         private Button PreviousButton;
+        private Button MoreButton;
+        private TableLayoutPanel tableLayoutPanel2;
+        private TextBox RequirementTextBox2;
+        private Button SearchButton;
+        private Label label1;
+        private Label label3;
+        private TrackBar StateTrackBar;
+        private TextBox RequirementTextBox1;
+        private Button PlusButton;
+        private ComboBox BibleChooseBox;
+        private Label label2;
+        private Label label4;
+        private TableLayoutPanel FoundVersesTable;
+        private SplitContainer splitContainer2;
+        private TableLayoutPanel tableLayoutPanel1;
+        private Label label5;
+        private Label label7;
+        private Label label8;
+        private Button button2;
+        private Button button3;
     }
 }

@@ -15,11 +15,5 @@
     <ProjectReference Include="..\FindReferencesForRequirements\FindLinksForRequirements.csproj" />
     <ProjectReference Include="..\Preprocessing\Preprocessing.csproj" />
   </ItemGroup>
-	
-  <ItemGroup>
-    <None Update="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 
 </Project>
