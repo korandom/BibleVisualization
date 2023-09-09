@@ -128,8 +128,9 @@ namespace ViewModel
                 catch { return "book not found"; };
                 string chapterS = (r.chapterStart == 0) ? "" : $" {r.chapterStart}";
                 string verseS = (r.verseStart == 0) ? "" : $":{r.verseStart}";
-                string chapterE = (r.chapterEnd == 0 || r.chapterEnd == r.chapterStart) ? "" : $"-{r.chapterEnd}";
-                string verseE = (r.verseEnd == 0) ? "" : (chapterE=="")? $"-{r.verseEnd}":$":{r.verseEnd}";
+                bool sameChapter = r.chapterEnd == 0 || r.chapterEnd == r.chapterStart;
+                string chapterE = (sameChapter) ? "" : $"-{r.chapterEnd}";
+                string verseE = (r.verseEnd == 0 || (r.verseEnd == r.verseStart && sameChapter)) ? "" : (chapterE=="")? $"-{r.verseEnd}":$":{r.verseEnd}";
                 return book + chapterS + verseS + chapterE + verseE;
             }
             return "all";
@@ -137,7 +138,12 @@ namespace ViewModel
         public void LoadProperties(Link link)
         {
             this.link = link;
-            verseEnumerator = bible.GetEnumerator(link.source);
+
+            if (source)
+            {
+                verseEnumerator = bible.GetEnumerator(link.source);
+            }
+            else verseEnumerator = bible.GetEnumerator(link.target);
             if (verseEnumerator.MoveNext())
             {
                 SourceLabel = GetStringRepresentation(link.source);

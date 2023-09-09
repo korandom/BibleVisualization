@@ -10,11 +10,14 @@ using FindLinksForRequirements;
 using FindReferencesForRequirements;
 using System.ComponentModel;
 using Preprocessing;
+using System.Security;
 
 namespace ViewModel
 {
+    enum SortingWay {target, source, occurance}
     public class ModelViewRequirementBase :INotifyPropertyChanged
     {
+        private SortingWay sortingWay;
         private bool sources;
         private bool _more;
         public bool More 
@@ -70,7 +73,7 @@ namespace ViewModel
             More = false;
             Previous = false;
             sources = true;
-
+            sortingWay = SortingWay.occurance;
             Preprocess(sourcesPath);
         }
         private void Preprocess(string sourcepath)
@@ -115,29 +118,30 @@ namespace ViewModel
             if(count> currentLinkIndex + numberOfLinkBoxes)
             {
                 currentLinkIndex += numberOfLinkBoxes;
-                int nextlinksLeft = (count - currentLinkIndex > numberOfLinkBoxes) ? numberOfLinkBoxes : count - currentLinkIndex;
-                for(int i = 0; i < nextlinksLeft; i++)
-                {
-                    linkBoxes[i].LoadProperties(_links[currentLinkIndex + i]);
-                }
-                for(int i = nextlinksLeft; i < numberOfLinkBoxes; i++) 
-                { 
-                    linkBoxes[i].Visible = false; 
-                }
+                RefreshLinkBoxes();
             }
-            Previous = currentLinkIndex - numberOfLinkBoxes >= 0;
-            More = count > currentLinkIndex + numberOfLinkBoxes;
         }
         public void LoadPrevious()
         {
             if(currentLinkIndex >= numberOfLinkBoxes) 
             {
                 currentLinkIndex -= numberOfLinkBoxes;
-                for (int i = 0; i < numberOfLinkBoxes; i++)
-                {
-                    linkBoxes[i].LoadProperties(_links[currentLinkIndex + i]);
-                }
-                
+                RefreshLinkBoxes();
+            }
+            
+        }
+        public void RefreshLinkBoxes()
+        {
+            int count = _links.Count;
+            int numberOfLinksLeft = (count - currentLinkIndex > numberOfLinkBoxes) ? numberOfLinkBoxes : count - currentLinkIndex;
+
+            for (int i = 0; i < numberOfLinksLeft; i++)
+            {
+                linkBoxes[i].LoadProperties(_links[currentLinkIndex + i]);
+            }
+            for (int i = numberOfLinksLeft; i < numberOfLinkBoxes; i++)
+            {
+                linkBoxes[i].Visible = false;
             }
             Previous = currentLinkIndex - numberOfLinkBoxes >= 0;
             More = _links.Count > currentLinkIndex + numberOfLinkBoxes;
@@ -150,24 +154,15 @@ namespace ViewModel
                 if (searchBox.addedRequirement)
                     LoadLinksTwo();
                 else LoadLinksOne();
+                SortLinks();
                 int count = _links.Count;
                 if (count> 0)
                 {
                     string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
                     requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");
-                    int numberOfLinkLeft = (count  > numberOfLinkBoxes) ? numberOfLinkBoxes: count;
-                    for (int i = 0; i < numberOfLinkLeft; i++)
-                    {
-                        linkBoxes[i].LoadProperties(_links[i]);
-                    }
-                    for (int i = numberOfLinkLeft; i < numberOfLinkBoxes; i++)
-                    {
-                        linkBoxes[i].Visible = false;
-                    }
+                    RefreshLinkBoxes();
                 }
                 else requirementBox.Text = "No links found";
-                Previous = false;
-                More = count > numberOfLinkBoxes;
             }
             catch (FormatException e) { requirementBox.Text = e.Message; }
         }
@@ -192,7 +187,6 @@ namespace ViewModel
         }
         public void Reset()
         {
-            sources = true;
             bt = new BibleText(BiblesPath + "\\" + searchBox.currentBible);
             _links = new List<Link>();
             for (int i = 0; i < numberOfLinkBoxes; i++)
@@ -221,6 +215,37 @@ namespace ViewModel
                 {
                     linkbox.ShowTarget();
                 }
+            }
+        }
+        public void ChangeSortingWay(int index)
+        {
+            if (index == (int)sortingWay) return;
+            sortingWay = (SortingWay)index;
+            SortLinks();
+            currentLinkIndex = 0;
+            RefreshLinkBoxes();
+        }
+        public void SortLinks()
+        {
+            switch(sortingWay)
+            {
+                case SortingWay.occurance:
+                    {
+                        _links.Sort(new Link.OccuranceComparer());
+                        break;
+                    }
+                case SortingWay.source:
+                    {
+                        _links.Sort(new Link.SourceComparer());
+                        break;
+                    }
+                case SortingWay.target:
+                    {
+                        _links.Sort(new Link.TargetComparer());
+                        break;
+                    }
+                default: { break; }
+
             }
         }
 

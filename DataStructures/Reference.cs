@@ -109,6 +109,30 @@ namespace DataStructures
             }
             return fits;
         }
+        public int CompareTo(Reference y)
+        {
+            if (book == y.book)
+            {
+                if (chapterStart == y.chapterStart)
+                {
+                    if (verseStart == y.verseStart)
+                    {
+                        if (chapterEnd == y.chapterEnd)
+                        {
+                            if (verseEnd == y.verseEnd)
+                            {
+                                return 0;
+                            }
+                            return verseEnd - y.verseEnd;
+                        }
+                        return chapterEnd - y.chapterEnd;
+                    }
+                    return verseStart - y.verseStart;
+                }
+                return chapterStart - y.chapterStart;
+            }
+            return book - y.book;
+        }
     }
     public static class ReferenceExtentions
     {/*
@@ -198,5 +222,7 @@ namespace DataStructures
             }
             throw new FormatException("Wrong Requirements Format");
         }
+        
     }
+
 }

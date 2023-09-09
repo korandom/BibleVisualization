@@ -280,6 +280,7 @@
             SortTrackBar.TabIndex = 10;
             SortTrackBar.TickStyle = TickStyle.TopLeft;
             SortTrackBar.Value = 2;
+            SortTrackBar.Scroll += SortTrackBar_Scroll;
             // 
             // SortByLabel
             // 

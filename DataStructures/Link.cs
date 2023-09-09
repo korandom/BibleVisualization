@@ -7,18 +7,6 @@ using System.Threading.Tasks;
 
 namespace DataStructures
 {
-    struct Colour
-    {
-        int opacity;
-        int red;
-        int green;
-        int blue;
-
-        public Colour()
-        {
-
-        }
-    }
     public class Link 
     {
         public readonly Reference source;
@@ -107,5 +95,18 @@ namespace DataStructures
             }
             return false;
         }
+        public class OccuranceComparer : IComparer<Link>
+        {
+            public int Compare(Link x, Link y) => y.Occurance - x.Occurance;
+        }
+        public class SourceComparer : IComparer<Link> 
+        {
+            public int Compare(Link x, Link y) => x.source.CompareTo(y.source);
+        }
+        public class TargetComparer : IComparer<Link>
+        {
+            public int Compare(Link x, Link y) => x.target.CompareTo(y.target);
+        }
+
     }
 }

@@ -255,5 +255,14 @@ namespace UserInterface
             }
             r.DeselectAll();
         }
+
+        private void SortTrackBar_Scroll(object sender, EventArgs e)
+        {
+            if (sender is TrackBar tr)
+            {
+                MV.ChangeSortingWay(tr.Value);
+
+            }
+        }
     }
 }
