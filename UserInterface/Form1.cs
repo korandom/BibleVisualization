@@ -29,9 +29,17 @@ namespace UserInterface
             MoreButton.DataBindings.Add("Visible", MV, "More");
             MoreButton.Tag = new Action(MV.LoadMore);
             MoreButton.Click += ButtonCLickVerseAction;
+
             PreviousButton.DataBindings.Add("Visible", MV, "Previous");
             PreviousButton.Tag = new Action(MV.LoadPrevious);
             PreviousButton.Click += ButtonCLickVerseAction;
+
+            SourceButton.Tag = new Action(MV.ShowSources);
+            SourceButton.Click += ButtonCLickVerseAction;
+
+            TargetButton.Tag = new Action(MV.ShowTargets);
+            TargetButton.Click += ButtonCLickVerseAction;
+
 
             for (int i = 0; i < ModelViewRequirementBase.numberOfLinkBoxes; i++)
             {
@@ -55,9 +63,7 @@ namespace UserInterface
             LinkBox linkBox = MV.linkBoxes[i];
             table.Tag = linkBox;
 
-            //Button sourceButton = new Button();
             Label sourceLabel = new Label();
-            //Button targetButton = new Button();
             Label s = new Label();
             s.Text = "S:";
             Label t = new Label();
@@ -67,11 +73,10 @@ namespace UserInterface
             Button back = new Button();
             Button next = new Button();
             RichTextBox verse = new RichTextBox();
+
             //text appearance
             verse.ReadOnly = true;
             verse.TextChanged += VerseTextChanged;
-            //sourceButton.Text = "source";
-            //targetButton.Text = "target";
             back.Text = "<";
             next.Text = ">";
             sourceLabel.AutoSize = true;
@@ -91,17 +96,13 @@ namespace UserInterface
             targetLabel.DataBindings.Add("Text", linkBox, "TargetLabel");
             occurance.DataBindings.Add("Text", linkBox, "Occurance");
             //databinding - buttons
-            //sourceButton.Tag = new Action(linkBox.ShowSource);
-            //targetButton.Tag = new Action(linkBox.ShowTarget);
             back.DataBindings.Add("Visible", linkBox, "Back");
             next.DataBindings.Add("Visible", linkBox, "Next");
             back.Tag = new Action(linkBox.BackVerse);
             next.Tag = new Action(linkBox.NextVerse);
 
 
-            //table.Controls.Add(sourceButton, 0, 0);
             table.Controls.Add(sourceLabel, 1, 0);
-            //table.Controls.Add(targetButton, 3, 0);
             table.Controls.Add(t, 0, 1);
             table.Controls.Add(s, 0, 0);
             table.Controls.Add(targetLabel, 1, 1);
@@ -110,7 +111,6 @@ namespace UserInterface
             table.Controls.Add(verse, 3, 0);
             table.Controls.Add(next, 4, 0);
 
-            //table.SetColumnSpan(sourceButton, 2);
             table.SetRowSpan(back, 2);
             table.SetRowSpan(next, 2);
             table.SetRowSpan(verse, 2);
@@ -183,13 +183,10 @@ namespace UserInterface
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
-            VerseSplitContainer.SuspendLayout();
-            VerseSplitContainer.Visible = true;
             MV.searchBox.requirement1 = RequirementTextBox1.Text;
             MV.searchBox.requirement2 = RequirementTextBox2.Text;
             MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
             MV.Search();
-            VerseSplitContainer.ResumeLayout(false);
 
         }
         private void VerseTextChanged(object? sender, EventArgs e)

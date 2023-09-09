@@ -15,6 +15,7 @@ namespace ViewModel
 {
     public class ModelViewRequirementBase :INotifyPropertyChanged
     {
+        private bool sources;
         private bool _more;
         public bool More 
         {
@@ -68,6 +69,7 @@ namespace ViewModel
             rLinkLoader = GetLoader(sourcesPath);
             More = false;
             Previous = false;
+            sources = true;
 
             Preprocess(sourcesPath);
         }
@@ -190,6 +192,7 @@ namespace ViewModel
         }
         public void Reset()
         {
+            sources = true;
             bt = new BibleText(BiblesPath + "\\" + searchBox.currentBible);
             _links = new List<Link>();
             for (int i = 0; i < numberOfLinkBoxes; i++)
@@ -197,7 +200,28 @@ namespace ViewModel
                 linkBoxes[i].ChangeBibleText(bt);
             }
             requirementBox.ChangeBible(bt);
-
+        }
+        public void ShowSources()
+        {
+            if (!sources)
+            {
+                sources = true;
+                foreach (LinkBox linkbox in linkBoxes)
+                {
+                    linkbox.ShowSource();
+                }
+            }
+        }
+        public void ShowTargets()
+        {
+            if (sources)
+            {
+                sources = false;
+                foreach(LinkBox linkbox in linkBoxes)
+                {
+                    linkbox.ShowTarget();
+                }
+            }
         }
 
     }
