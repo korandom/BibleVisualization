@@ -52,8 +52,6 @@ namespace ViewModel
         }
         public void LoadProperties(string requirement)
         {
-            try
-            {
                 List<Reference> requirementReferences = ip.Parse(requirement);
                 StringBuilder text = new StringBuilder();
                 foreach (Reference reference in requirementReferences)
@@ -67,8 +65,6 @@ namespace ViewModel
                 }
                 RequirementDescription = requirement;
                 Text = text.ToString();
-            }
-            catch (FormatException e) { Text = e.Message; }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 

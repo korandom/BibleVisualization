@@ -123,7 +123,7 @@ namespace ViewModel
                 string book;
                 try
                 {
-                    book = NameToBook.bookNumberToName[r.book];
+                    book = NumberToBook.bookNumberToName[r.book];
                 }
                 catch { return "book not found"; };
                 string chapterS = (r.chapterStart == 0) ? "" : $" {r.chapterStart}";
@@ -181,7 +181,7 @@ namespace ViewModel
         }
         public void ShowSource()
         {
-            if (!source)
+            if (!source && link is not null)
             {
                 source = true;
                 verseEnumerator = bible.GetEnumerator(link.source);
@@ -193,7 +193,7 @@ namespace ViewModel
         }
         public void ShowTarget()
         {
-            if (source)
+            if (source && link is not null)
             {
                 source = false;
                 verseEnumerator = bible.GetEnumerator(link.target);

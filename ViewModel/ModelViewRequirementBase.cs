@@ -14,10 +14,19 @@ using System.Security;
 
 namespace ViewModel
 {
-    enum SortingWay {target, source, occurance}
+    public enum SortingWay {target, source, occurance}
     public class ModelViewRequirementBase :INotifyPropertyChanged
     {
-        private SortingWay sortingWay;
+        private SortingWay _sortingWay;
+        public SortingWay SortingWay
+        {
+            get { return _sortingWay; }
+            set {
+                if (_sortingWay == value) return;
+                _sortingWay = value;
+                SortLinks();
+                }
+        }
         private bool sources;
         private bool _more;
         public bool More 
@@ -73,7 +82,7 @@ namespace ViewModel
             More = false;
             Previous = false;
             sources = true;
-            sortingWay = SortingWay.occurance;
+            SortingWay = SortingWay.occurance;
             Preprocess(sourcesPath);
         }
         private void Preprocess(string sourcepath)
@@ -160,11 +169,19 @@ namespace ViewModel
                 {
                     string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
                     requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");
-                    RefreshLinkBoxes();
                 }
                 else requirementBox.Text = "No links found";
+                RefreshLinkBoxes();
             }
-            catch (FormatException e) { requirementBox.Text = e.Message; }
+            catch (FormatException e) 
+            { 
+                _links = new List<Link>();
+                requirementBox.Text = e.Message;
+                for (int i = 0; i < numberOfLinkBoxes; i++)
+                {
+                    linkBoxes[i].Visible = false;
+                }
+            }
         }
         private void LoadLinksOne()
         {
@@ -219,15 +236,13 @@ namespace ViewModel
         }
         public void ChangeSortingWay(int index)
         {
-            if (index == (int)sortingWay) return;
-            sortingWay = (SortingWay)index;
-            SortLinks();
+            SortingWay = (SortingWay)index;
             currentLinkIndex = 0;
             RefreshLinkBoxes();
         }
         public void SortLinks()
         {
-            switch(sortingWay)
+            switch(SortingWay)
             {
                 case SortingWay.occurance:
                     {
