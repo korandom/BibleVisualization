@@ -8,6 +8,7 @@ namespace UserInterface
     public partial class Form1 : Form
     {
         ModelViewRequirementBase MV;
+        int stateIndex;
         public Form1()
         {
             MV = new ModelViewRequirementBase();
@@ -20,13 +21,11 @@ namespace UserInterface
             string requirement = string.Join(" ", requirementArray);
             MV.searchBox.requirement1 = requirement;
             MV.searchBox.requirement2 = "";
-            MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
+            //MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
             MV.Search();
         }
         private void DataBind()
         {
-
-
             Count.DataBindings.Add("Text", MV, "Count");
 
             MoreButton.DataBindings.Add("Visible", MV, "More");
@@ -174,11 +173,8 @@ namespace UserInterface
                     RequirementTextBox2.Visible = false;
                     MV.searchBox.addedRequirement = false;
                     bt.Text = "+";
-                    StateTrackBar.Visible = true;
-                    allLabel.Visible = true;
-                    fromLabel.Visible = true;
-                    toLabel.Visible = true;
-                    insideLabel.Visible = true;
+                    StateLabel.Visible = true;
+                    StateTable.Visible = true;
                     SwitchButton.Visible = false;
                 }
                 else
@@ -186,11 +182,8 @@ namespace UserInterface
                     RequirementTextBox2.Visible = true;
                     MV.searchBox.addedRequirement = true;
                     bt.Text = "-";
-                    StateTrackBar.Visible = false;
-                    allLabel.Visible = false;
-                    fromLabel.Visible = false;
-                    toLabel.Visible = false;
-                    insideLabel.Visible = false;
+                    StateLabel.Visible = false;
+                    StateTable.Visible = false;
                     SwitchButton.Visible = true;
                 }
             }
@@ -200,7 +193,7 @@ namespace UserInterface
         {
             MV.searchBox.requirement1 = RequirementTextBox1.Text;
             MV.searchBox.requirement2 = RequirementTextBox2.Text;
-            MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
+            MV.searchBox.ChangeStateIndex(stateIndex);
             MV.Search();
 
         }
@@ -271,12 +264,11 @@ namespace UserInterface
             r.DeselectAll();
         }
 
-        private void SortTrackBar_Scroll(object sender, EventArgs e)
+        private void SortRadioButton_Click(object sender, EventArgs e)
         {
-            if (sender is TrackBar tr)
+            if (sender is RadioButton rb && rb.Checked)
             {
-                MV.ChangeSortingWay(tr.Value);
-
+                MV.ChangeSortingWay((int)rb.Tag);
             }
         }
 
@@ -285,6 +277,14 @@ namespace UserInterface
             string temp = RequirementTextBox1.Text;
             RequirementTextBox1.Text = RequirementTextBox2.Text;
             RequirementTextBox2.Text = temp;
+        }
+
+        private void StateButton_CheckedChanged(object sender, EventArgs e)
+        {
+            if (sender is RadioButton rb && rb is not null && rb.Checked)
+            {
+                stateIndex = (int)rb.Tag;
+            }
         }
     }
 }
