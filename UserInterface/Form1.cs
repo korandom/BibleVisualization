@@ -26,6 +26,9 @@ namespace UserInterface
         private void DataBind()
         {
 
+
+            Count.DataBindings.Add("Text", MV, "Count");
+
             MoreButton.DataBindings.Add("Visible", MV, "More");
             MoreButton.Tag = new Action(MV.LoadMore);
             MoreButton.Click += ButtonCLickVerseAction;
@@ -48,9 +51,11 @@ namespace UserInterface
             RequirementLabel.DataBindings.Add("Text", MV.requirementBox, "RequirementDescription");
             RequirementTextBox.DataBindings.Add("Text", MV.requirementBox, "Text");
             RequirementTextBox.TextChanged += VerseTextChanged;
+
+
             BibleChooseBox.DataSource = MV.searchBox.bibleNames;
-
-
+            BibleChooseBox.DataBindings.Add("SelectedIndex", MV.searchBox, "CurrentBibleIndex");
+            BibleChooseBox.SelectedIndexChanged += BibleChooseBox_SelectedIndexChanged;
         }
         private void CreateLinkTable(int i)
         {
@@ -170,6 +175,11 @@ namespace UserInterface
                     MV.searchBox.addedRequirement = false;
                     bt.Text = "+";
                     StateTrackBar.Visible = true;
+                    allLabel.Visible = true;
+                    fromLabel.Visible = true;
+                    toLabel.Visible = true;
+                    insideLabel.Visible = true;
+                    SwitchButton.Visible = false;
                 }
                 else
                 {
@@ -177,6 +187,11 @@ namespace UserInterface
                     MV.searchBox.addedRequirement = true;
                     bt.Text = "-";
                     StateTrackBar.Visible = false;
+                    allLabel.Visible = false;
+                    fromLabel.Visible = false;
+                    toLabel.Visible = false;
+                    insideLabel.Visible = false;
+                    SwitchButton.Visible = true;
                 }
             }
         }
@@ -263,6 +278,13 @@ namespace UserInterface
                 MV.ChangeSortingWay(tr.Value);
 
             }
+        }
+
+        private void SwitchButton_Click(object sender, EventArgs e)
+        {
+            string temp = RequirementTextBox1.Text;
+            RequirementTextBox1.Text = RequirementTextBox2.Text;
+            RequirementTextBox2.Text = temp;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using FindLinksForRequirements;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,20 @@ using System.Threading.Tasks;
 
 namespace ViewModel
 {
-    public class SearchBoxRequierement
+    public class SearchBoxRequierement : INotifyPropertyChanged
     {
-        public int currentBibleIndex;
+        private int _currentBibleIndex;
+        public int CurrentBibleIndex
+        {
+            get { return _currentBibleIndex; }
+            set
+            {
+                if (_currentBibleIndex == value) return;
+                _currentBibleIndex = value;
+                OnPropertyChanged(nameof(CurrentBibleIndex));
+            }
+        }
+
         public string currentBible;
         public List<string> bibleNames= new List<string>();
         public string requirement1="";
@@ -26,7 +38,7 @@ namespace ViewModel
                 bibleNames.Add(Path.GetFileName(file));
             }
             currentBible = ConfigurationManager.AppSettings.Get("FirstPickBible")??"";
-            currentBibleIndex = bibleNames.IndexOf(currentBible);
+            CurrentBibleIndex = bibleNames.IndexOf(currentBible);
         }
         public void AddRequirement() => addedRequirement = true;
         public void RemoveRequirement() => addedRequirement = false;
@@ -34,7 +46,13 @@ namespace ViewModel
         public void ChangeBible(int index)
         {
             currentBible = bibleNames[index];
-            currentBibleIndex = index;
+            CurrentBibleIndex = index;
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

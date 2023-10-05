@@ -20,7 +20,6 @@ namespace ViewModel
             {
                 if (_text != value)
                 {
-
                     _text = value;
                     OnPropertyChanged(nameof(Text));
                 }

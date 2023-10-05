@@ -14,9 +14,21 @@ using System.Security;
 
 namespace ViewModel
 {
+    
     public enum SortingWay {target, source, occurance}
     public class ModelViewRequirementBase :INotifyPropertyChanged
     {
+        private int _count;
+        public int Count
+        {
+            get { return _count; }
+            set
+            {
+                if (_count == value) return;
+                _count = value;
+                OnPropertyChanged(nameof(Count));
+            }
+        }
         private SortingWay _sortingWay;
         public SortingWay SortingWay
         {
@@ -123,8 +135,8 @@ namespace ViewModel
         
         public void LoadMore()  //Loading Next Links in _links to show in boxes in UI
         {
-            int count = _links.Count;
-            if(count> currentLinkIndex + numberOfLinkBoxes)
+            
+            if(Count> currentLinkIndex + numberOfLinkBoxes)
             {
                 currentLinkIndex += numberOfLinkBoxes;
                 RefreshLinkBoxes();
@@ -141,8 +153,8 @@ namespace ViewModel
         }
         public void RefreshLinkBoxes()
         {
-            int count = _links.Count;
-            int numberOfLinksLeft = (count - currentLinkIndex > numberOfLinkBoxes) ? numberOfLinkBoxes : count - currentLinkIndex;
+            
+            int numberOfLinksLeft = (Count - currentLinkIndex > numberOfLinkBoxes) ? numberOfLinkBoxes : Count - currentLinkIndex;
 
             for (int i = 0; i < numberOfLinksLeft; i++)
             {
@@ -153,7 +165,7 @@ namespace ViewModel
                 linkBoxes[i].Visible = false;
             }
             Previous = currentLinkIndex - numberOfLinkBoxes >= 0;
-            More = _links.Count > currentLinkIndex + numberOfLinkBoxes;
+            More = Count > currentLinkIndex + numberOfLinkBoxes;
         }
         public void Search()
         {
@@ -164,8 +176,8 @@ namespace ViewModel
                     LoadLinksTwo();
                 else LoadLinksOne();
                 SortLinks();
-                int count = _links.Count;
-                if (count> 0)
+                Count = _links.Count;
+                if (Count> 0)
                 {
                     string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
                     requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");
