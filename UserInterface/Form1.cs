@@ -14,6 +14,7 @@ namespace UserInterface
             MV = new ModelViewRequirementBase();
             InitializeComponent();
             DataBind();
+            stateIndex = 3;
             this.AcceptButton = SearchButton;
         }
         public Form1(string[] requirementArray) : this()
@@ -21,7 +22,7 @@ namespace UserInterface
             string requirement = string.Join(" ", requirementArray);
             MV.searchBox.requirement1 = requirement;
             MV.searchBox.requirement2 = "";
-            //MV.searchBox.ChangeStateIndex(StateTrackBar.Value);
+            MV.searchBox.ChangeStateIndex(stateIndex);
             MV.Search();
         }
         private void DataBind()
