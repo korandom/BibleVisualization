@@ -1,36 +1,28 @@
 ﻿using DataStructures;
+using System.Configuration;
 namespace FindLinksForRequirements
 {
     public class InputParser
     {
-        Dictionary<string, int> bookNameToNumber;
-        public InputParser() //sets default dictionary if no is provided
+        Dictionary<string, int> bookShortNameToNumber;
+        public InputParser()
         {
-            bookNameToNumber = new Dictionary<string, int> //Dictionary from short names to book numbers
-                                                           //taken from czech Bible translation info description "Ekumenický překlad"
-            {
-                { "Gen", 10 }, { "Exo", 20 },{ "Lev", 30 },{ "Num", 40 },
-                { "Deu", 50 },{ "Joz", 60 },{ "Sou", 70 },{ "Rut", 80 },
-                { "1Sa", 90 },{ "2Sa", 100 },{ "1Krá", 110 },{ "2Krá", 120 },
-                { "1Par", 130 },{ "2Par", 140 },{ "Ezd", 150 },{ "Neh", 160 },
-                { "Est", 190 },{ "Job", 220 },{ "Žalm", 230 },{ "Přís", 240 },
-                { "Kaz", 250 },{ "Pís", 260 },{ "Iz", 290 },{ "Jer", 300 },
-                { "Pláč", 310 },{ "Ez", 330  },{ "Dan", 340 },{ "Oze", 350 },
-                { "Joel", 360 },{ "Amos", 370 },{ "Abd", 380 },{ "Jon", 390 },
-                { "Mic", 400 },{ "Nah", 410 },{ "Aba", 420 },{ "Sof", 430 },
-                { "Agg", 442 },{ "Zac", 450 },{ "Mal", 460 },{ "Mat", 470 },
-                { "Mar", 480 },{ "Luk", 490 },{ "Jan", 500 },{ "Skut", 510 },
-                { "Řím", 520 },{ "1Kor", 530 },{ "2Kor", 540 },{ "Gal", 550 },
-                { "Ef", 560 },{ "Fil", 570 },{ "Kol", 580 },{ "1Tes", 590 },
-                { "2Tes", 600 },{ "1Timo", 610 },{ "2Tim", 620 },{ "Tit", 630 },
-                { "Flm", 640 },{ "Žid", 650 },{ "Jak", 660 },{ "1Pe", 670 },
-                { "2Pe", 680 },{ "1Jan", 690 },{ "2Jan", 700 },{ "3Jan", 710 },
-                { "Jud", 720 },{ "Zjev", 730 }
-            };
+            bookShortNameToNumber = LoadDictionaryFromConfig();
         }
-        public InputParser(Dictionary<string, int> bookNameToNumber)
+
+        private Dictionary<string, int> LoadDictionaryFromConfig()
         {
-            this.bookNameToNumber = bookNameToNumber;
+            Dictionary<string, int> dictionary = new Dictionary<string, int>();
+
+            var section = (BookSection)ConfigurationManager.GetSection("bookSection");
+            if (section != null)
+            {
+                foreach (BookElement element in section.Books)
+                {
+                    dictionary[element.ShortName] = element.Number;
+                }
+            }
+            return dictionary;
         }
 
         public List<Reference> Parse(string input) //FormatException if Wrong Format- correct format is <bookName> <chapterNumer>:<verseNumber>;<bookname ; [morereferences]
@@ -68,7 +60,7 @@ namespace FindLinksForRequirements
                 rest += textReference[i];
                 i++;
             }
-            if (bookNameToNumber.TryGetValue(bookName, out int bookNumber))
+            if (bookShortNameToNumber.TryGetValue(bookName, out int bookNumber))
             {
                 return bookNumber + rest;
             }
