@@ -47,7 +47,9 @@
             label1 = new Label();
             StateLabel = new Label();
             RequirementTextBox2 = new TextBox();
+            HelpButton = new Button();
             VerseSplitContainer = new SplitContainer();
+            helpRichTextBox = new RichTextBox();
             versesRequirementSplitContainer = new SplitContainer();
             RequirementLabel = new Label();
             RequirementVersesLabel = new Label();
@@ -141,6 +143,7 @@
             tableLayoutPanel2.Controls.Add(label1, 1, 0);
             tableLayoutPanel2.Controls.Add(StateLabel, 3, 0);
             tableLayoutPanel2.Controls.Add(RequirementTextBox2, 6, 2);
+            tableLayoutPanel2.Controls.Add(HelpButton, 0, 2);
             tableLayoutPanel2.Dock = DockStyle.Fill;
             tableLayoutPanel2.Location = new Point(0, 0);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -372,6 +375,19 @@
             RequirementTextBox2.TabIndex = 20;
             RequirementTextBox2.Visible = false;
             // 
+            // HelpButton
+            // 
+            HelpButton.BackColor = Color.LightSteelBlue;
+            HelpButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            HelpButton.Location = new Point(3, 47);
+            HelpButton.Name = "HelpButton";
+            tableLayoutPanel2.SetRowSpan(HelpButton, 2);
+            HelpButton.Size = new Size(56, 30);
+            HelpButton.TabIndex = 21;
+            HelpButton.Text = "Help";
+            HelpButton.UseVisualStyleBackColor = false;
+            HelpButton.Click += HelpButton_Click;
+            // 
             // VerseSplitContainer
             // 
             VerseSplitContainer.BorderStyle = BorderStyle.FixedSingle;
@@ -382,6 +398,7 @@
             // 
             // VerseSplitContainer.Panel1
             // 
+            VerseSplitContainer.Panel1.Controls.Add(helpRichTextBox);
             VerseSplitContainer.Panel1.Controls.Add(versesRequirementSplitContainer);
             // 
             // VerseSplitContainer.Panel2
@@ -390,6 +407,16 @@
             VerseSplitContainer.Size = new Size(1223, 644);
             VerseSplitContainer.SplitterDistance = 407;
             VerseSplitContainer.TabIndex = 0;
+            // 
+            // helpRichTextBox
+            // 
+            helpRichTextBox.Dock = DockStyle.Fill;
+            helpRichTextBox.Location = new Point(0, 0);
+            helpRichTextBox.Name = "helpRichTextBox";
+            helpRichTextBox.Size = new Size(405, 642);
+            helpRichTextBox.TabIndex = 4;
+            helpRichTextBox.Text = "";
+            helpRichTextBox.Visible = false;
             // 
             // versesRequirementSplitContainer
             // 
@@ -408,7 +435,7 @@
             versesRequirementSplitContainer.Panel2.Controls.Add(RequirementTextBox);
             versesRequirementSplitContainer.Panel2.Padding = new Padding(5);
             versesRequirementSplitContainer.Size = new Size(405, 642);
-            versesRequirementSplitContainer.SplitterDistance = 73;
+            versesRequirementSplitContainer.SplitterDistance = 69;
             versesRequirementSplitContainer.TabIndex = 3;
             // 
             // RequirementLabel
@@ -445,7 +472,7 @@
             RequirementTextBox.Location = new Point(5, 5);
             RequirementTextBox.Name = "RequirementTextBox";
             RequirementTextBox.ReadOnly = true;
-            RequirementTextBox.Size = new Size(395, 555);
+            RequirementTextBox.Size = new Size(395, 559);
             RequirementTextBox.TabIndex = 0;
             RequirementTextBox.Text = "";
             // 
@@ -773,5 +800,7 @@
         private Label label1;
         private Label StateLabel;
         private TextBox RequirementTextBox2;
+        private Button HelpButton;
+        private RichTextBox helpRichTextBox;
     }
 }

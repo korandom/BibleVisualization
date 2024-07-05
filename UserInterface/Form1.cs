@@ -56,6 +56,9 @@ namespace UserInterface
             BibleChooseBox.DataSource = MV.searchBox.bibleNames;
             BibleChooseBox.DataBindings.Add("SelectedIndex", MV.searchBox, "CurrentBibleIndex");
             BibleChooseBox.SelectedIndexChanged += BibleChooseBox_SelectedIndexChanged;
+
+
+            helpRichTextBox.DataBindings.Add("Text", MV.searchBox, "HelpText");
         }
         private void CreateLinkTable(int i)
         {
@@ -192,6 +195,7 @@ namespace UserInterface
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            helpRichTextBox.Visible = false;
             MV.searchBox.requirement1 = RequirementTextBox1.Text;
             MV.searchBox.requirement2 = RequirementTextBox2.Text;
             MV.searchBox.ChangeStateIndex(stateIndex);
@@ -286,6 +290,11 @@ namespace UserInterface
             {
                 stateIndex = (int)rb.Tag;
             }
+        }
+
+        private void HelpButton_Click(object sender, EventArgs e)
+        {
+            helpRichTextBox.Visible = !helpRichTextBox.Visible;
         }
     }
 }

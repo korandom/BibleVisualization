@@ -81,7 +81,7 @@ namespace ViewModel
             string? sourcesPath = ConfigurationManager.AppSettings["DataSourcePath"];
             BiblesPath = sourcesPath + "\\BibleTranslations";
             searchBox = new SearchBoxRequierement(BiblesPath);
-            bt = new BibleText(BiblesPath + "\\" +searchBox.currentBible);
+            bt = new BibleText(BiblesPath + "\\" + searchBox.currentBible);
 
             _links = new List<Link>();
             for (int i = 0; i < numberOfLinkBoxes; i++)
@@ -177,7 +177,7 @@ namespace ViewModel
                 else LoadLinksOne();
                 SortLinks();
                 Count = _links.Count;
-                if (Count> 0)
+                if (Count > 0)
                 {
                     string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
                     requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");

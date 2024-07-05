@@ -18,12 +18,8 @@ namespace UserInterface
             
             ApplicationConfiguration.Initialize();
             if (args.Length == 0)
-          
-                
-                
-                
-           
               Application.Run(new Form1());
+
             else
                 Application.Run(new Form1(args));
 
