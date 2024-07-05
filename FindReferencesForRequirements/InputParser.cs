@@ -1,5 +1,7 @@
 ﻿using DataStructures;
 using System.Configuration;
+using System.Globalization;
+using System.Text;
 namespace FindLinksForRequirements
 {
     public class InputParser
@@ -19,12 +21,28 @@ namespace FindLinksForRequirements
             {
                 foreach (BookElement element in section.Books)
                 {
-                    dictionary[element.ShortName] = element.Number;
+                    string universalShortName = RemoveDiacritics(element.ShortName).ToLower();
+                    dictionary[universalShortName] = element.Number;
                 }
             }
             return dictionary;
         }
+        private static string RemoveDiacritics(string text)
+        {
+            var decomposedString = text.Normalize(NormalizationForm.FormD);
+            var sb = new StringBuilder();
 
+            foreach (var c in decomposedString)
+            {
+                var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+                if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+                {
+                    sb.Append(c);
+                }
+            }
+
+            return sb.ToString().Normalize(NormalizationForm.FormC);
+        }
         public List<Reference> Parse(string input) //FormatException if Wrong Format- correct format is <bookName> <chapterNumer>:<verseNumber>;<bookname ; [morereferences]
                                                    //and alike defined in DataStructures.Reference.cs
         {
@@ -60,6 +78,7 @@ namespace FindLinksForRequirements
                 rest += textReference[i];
                 i++;
             }
+            bookName = RemoveDiacritics(bookName).ToLower();
             if (bookShortNameToNumber.TryGetValue(bookName, out int bookNumber))
             {
                 return bookNumber + rest;

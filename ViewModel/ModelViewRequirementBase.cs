@@ -198,7 +198,7 @@ namespace ViewModel
         private void LoadLinksOne()
         {
             List < Reference > references= parser.Parse(searchBox.requirement1);
-            _links = rLinkLoader.FindLinks(references, (OneTextBoxState)searchBox.stateIndex);
+            _links = rLinkLoader.FindLinks(references, (OneTextBoxState)searchBox.StateIndex);
         }
         private void LoadLinksTwo()
         {

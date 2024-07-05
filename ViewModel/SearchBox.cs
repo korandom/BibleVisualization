@@ -26,12 +26,22 @@ namespace ViewModel
                 OnPropertyChanged(nameof(CurrentBibleIndex));
             }
         }
+        private int _stateIndex;
+        public int StateIndex
+        {
+            get { return _stateIndex; }
+            set
+            {
+                if (_stateIndex == value) return;
+                _stateIndex = value;
+                OnPropertyChanged(nameof(StateIndex));
+            }
+        }
 
         public string currentBible;
         public List<string> bibleNames= new List<string>();
         public string requirement1="";
         public string requirement2="";
-        public int stateIndex=0;
         public bool addedRequirement=false;
 
         public SearchBoxRequierement(string path)
@@ -43,10 +53,13 @@ namespace ViewModel
             }
             currentBible = ConfigurationManager.AppSettings.Get("FirstPickBible")??"";
             CurrentBibleIndex = bibleNames.IndexOf(currentBible);
+
+            StateIndex = Int32.TryParse(ConfigurationManager.AppSettings.Get("SearchTypeIndex"), out int result) && result < 4 && result >=0 ? result : 3;
         }
+
         public void AddRequirement() => addedRequirement = true;
         public void RemoveRequirement() => addedRequirement = false;
-        public void ChangeStateIndex(int index) => stateIndex = index;
+        public void ChangeStateIndex(int index) => StateIndex = index;
         public void ChangeBible(int index)
         {
             currentBible = bibleNames[index];

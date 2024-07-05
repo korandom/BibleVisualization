@@ -8,21 +8,20 @@ namespace UserInterface
     public partial class Form1 : Form
     {
         ModelViewRequirementBase MV;
-        int stateIndex;
         public Form1()
         {
             MV = new ModelViewRequirementBase();
             InitializeComponent();
             DataBind();
-            stateIndex = 3;
             this.AcceptButton = SearchButton;
+
+
         }
         public Form1(string[] requirementArray) : this()
         {
             string requirement = string.Join(" ", requirementArray);
             MV.searchBox.requirement1 = requirement;
             MV.searchBox.requirement2 = "";
-            MV.searchBox.ChangeStateIndex(stateIndex);
             MV.Search();
         }
         private void DataBind()
@@ -48,6 +47,7 @@ namespace UserInterface
             {
                 CreateLinkTable(i);
             }
+
             RequirementLabel.DataBindings.Add("Text", MV.requirementBox, "RequirementDescription");
             RequirementTextBox.DataBindings.Add("Text", MV.requirementBox, "Text");
             RequirementTextBox.TextChanged += VerseTextChanged;
@@ -57,6 +57,16 @@ namespace UserInterface
             BibleChooseBox.DataBindings.Add("SelectedIndex", MV.searchBox, "CurrentBibleIndex");
             BibleChooseBox.SelectedIndexChanged += BibleChooseBox_SelectedIndexChanged;
 
+
+            // Check first pick state
+            RadioButton[] buttons = { allButton, fromButton, toButton, insideButton };
+            foreach (RadioButton button in buttons)
+            {
+                if ((int)button.Tag == MV.searchBox.StateIndex)
+                {
+                    button.Checked = true;
+                }
+            }
 
             helpRichTextBox.DataBindings.Add("Text", MV.searchBox, "HelpText");
         }
@@ -198,9 +208,7 @@ namespace UserInterface
             helpRichTextBox.Visible = false;
             MV.searchBox.requirement1 = RequirementTextBox1.Text;
             MV.searchBox.requirement2 = RequirementTextBox2.Text;
-            MV.searchBox.ChangeStateIndex(stateIndex);
             MV.Search();
-
         }
         private void VerseTextChanged(object? sender, EventArgs e)
         {
@@ -288,7 +296,7 @@ namespace UserInterface
         {
             if (sender is RadioButton rb && rb is not null && rb.Checked)
             {
-                stateIndex = (int)rb.Tag;
+                MV.searchBox.StateIndex = (int)rb.Tag;
             }
         }
 

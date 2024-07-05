@@ -234,13 +234,11 @@
             // allButton
             // 
             allButton.AutoSize = true;
-            allButton.Checked = true;
             allButton.Dock = DockStyle.Fill;
             allButton.Location = new Point(3, 3);
             allButton.Name = "allButton";
             allButton.Size = new Size(50, 35);
             allButton.TabIndex = 0;
-            allButton.TabStop = true;
             allButton.Tag = 3;
             allButton.Text = "all";
             allButton.TextAlign = ContentAlignment.MiddleCenter;
