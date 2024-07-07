@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Drawing;
 using System.Text;
 using DataStructures;
+using FindLinksForRequirements;
 
 namespace ViewModel
 {
@@ -40,9 +42,31 @@ namespace ViewModel
 
         public string currentBible;
         public List<string> bibleNames= new List<string>();
-        public string requirement1="";
-        public string requirement2="";
-        public bool addedRequirement=false;
+
+        private Color _inputTextColor1 = Color.Black;
+        public Color InputTextColor1
+        {
+            get { return _inputTextColor1; }
+            set
+            {
+                if (_inputTextColor1 == value) return;
+                _inputTextColor1 = value;
+                OnPropertyChanged(nameof(InputTextColor1));
+            }
+        }
+        private Color _inputTextColor2 = Color.Black;
+        public Color InputTextColor2
+        {
+            get { return _inputTextColor2; }
+            set
+            {
+                if (_inputTextColor2 == value) return;
+                _inputTextColor2 = value;
+                OnPropertyChanged(nameof(InputTextColor2));
+            }
+        }
+
+        public bool addedRequirement = false;
 
         public SearchBoxRequierement(string path)
         {
@@ -57,9 +81,7 @@ namespace ViewModel
             StateIndex = Int32.TryParse(ConfigurationManager.AppSettings.Get("SearchTypeIndex"), out int result) && result < 4 && result >=0 ? result : 3;
         }
 
-        public void AddRequirement() => addedRequirement = true;
-        public void RemoveRequirement() => addedRequirement = false;
-        public void ChangeStateIndex(int index) => StateIndex = index;
+
         public void ChangeBible(int index)
         {
             currentBible = bibleNames[index];

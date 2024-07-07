@@ -20,9 +20,7 @@ namespace UserInterface
         public Form1(string[] requirementArray) : this()
         {
             string requirement = string.Join(" ", requirementArray);
-            MV.searchBox.requirement1 = requirement;
-            MV.searchBox.requirement2 = "";
-            MV.Search();
+            MV.Search(requirement, "");
         }
         private void DataBind()
         {
@@ -56,6 +54,10 @@ namespace UserInterface
             BibleChooseBox.DataSource = MV.searchBox.bibleNames;
             BibleChooseBox.DataBindings.Add("SelectedIndex", MV.searchBox, "CurrentBibleIndex");
             BibleChooseBox.SelectedIndexChanged += BibleChooseBox_SelectedIndexChanged;
+
+            RequirementTextBox1.DataBindings.Add("ForeColor", MV.searchBox, "InputTextColor1");
+            RequirementTextBox2.DataBindings.Add("ForeColor", MV.searchBox, "InputTextColor2");
+
 
 
             // Check first pick state
@@ -206,9 +208,7 @@ namespace UserInterface
         private void SearchButton_Click(object sender, EventArgs e)
         {
             helpRichTextBox.Visible = false;
-            MV.searchBox.requirement1 = RequirementTextBox1.Text;
-            MV.searchBox.requirement2 = RequirementTextBox2.Text;
-            MV.Search();
+            MV.Search(RequirementTextBox1.Text, RequirementTextBox2.Text);
         }
         private void VerseTextChanged(object? sender, EventArgs e)
         {

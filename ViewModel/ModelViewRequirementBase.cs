@@ -11,6 +11,8 @@ using FindReferencesForRequirements;
 using System.ComponentModel;
 using Preprocessing;
 using System.Security;
+using System.Drawing;
+using System.Runtime.CompilerServices;
 
 namespace ViewModel
 {
@@ -167,45 +169,78 @@ namespace ViewModel
             Previous = currentLinkIndex - numberOfLinkBoxes >= 0;
             More = Count > currentLinkIndex + numberOfLinkBoxes;
         }
-        public void Search()
+        private List<Reference> ParseAndValidateInput(string input, out Color resultingColor)
         {
             try
             {
-                currentLinkIndex = 0;
-                if (searchBox.addedRequirement)
-                    LoadLinksTwo();
-                else LoadLinksOne();
-                SortLinks();
-                Count = _links.Count;
-                if (Count > 0)
-                {
-                    string r2text = searchBox.addedRequirement ? ";" + searchBox.requirement2 : "";
-                    requirementBox.LoadProperties($"{searchBox.requirement1}{r2text}");
-                }
-                else requirementBox.Text = "No links found";
-                RefreshLinkBoxes();
+                List<Reference> references = parser.Parse(input);
+                resultingColor = Color.Black;
+                return references;
             }
-            catch (FormatException e) 
-            { 
-                _links = new List<Link>();
-                requirementBox.Text = e.Message;
-                for (int i = 0; i < numberOfLinkBoxes; i++)
-                {
-                    linkBoxes[i].Visible = false;
-                }
+            catch(FormatException ex)
+            {
+                resultingColor = Color.Red;
+                Clean(ex.Message);
+                return new List<Reference>();
             }
         }
-        private void LoadLinksOne()
+        public void Search(string req1, string req2)
         {
-            List < Reference > references= parser.Parse(searchBox.requirement1);
+            currentLinkIndex = 0;
+
+            // parse and validate input for first value
+            Color result;
+            List<Reference> first = ParseAndValidateInput(req1, out result);
+            searchBox.InputTextColor1 = result;
+            if (result == Color.Red) return;
+
+            List<Reference> second = new List<Reference>();
+            // if there is two requirements, first parse and validate and then load links
+            if (searchBox.addedRequirement)
+            {
+                Color resultSecond;
+                second = ParseAndValidateInput(req2, out resultSecond);
+                searchBox.InputTextColor2 = resultSecond;
+                if (resultSecond == Color.Red) return;
+
+                LoadLinksTwo(first, second);
+            }
+
+            else LoadLinksOne(first);
+
+            SortLinks();
+            requirementBox.RequirementDescription = searchBox.addedRequirement ? req1 + req2 : req1;
+            Count = _links.Count;
+            RefreshLinkBoxes();
+            
+
+            if (Count > 0)
+            {
+                if(searchBox.addedRequirement) first.AddRange(second);
+                requirementBox.LoadProperties(first);
+            }
+            else requirementBox.Text = "No links found";
+
+            
+        }
+        private void Clean( string message)
+        {
+            _links = new List<Link>();
+            Count = 0;
+            requirementBox.Text = message;
+            requirementBox.RequirementDescription = "";
+            for (int i = 0; i < numberOfLinkBoxes; i++)
+            {
+                linkBoxes[i].Visible = false;
+            }
+        }
+        private void LoadLinksOne(List<Reference> references)
+        {
             _links = rLinkLoader.FindLinks(references, (OneTextBoxState)searchBox.StateIndex);
         }
-        private void LoadLinksTwo()
+        private void LoadLinksTwo(List<Reference> from, List<Reference> to)
         {
-            
-                List<Reference> references1 = parser.Parse(searchBox.requirement1);
-                List<Reference> references2 = parser.Parse(searchBox.requirement2);
-                _links = rLinkLoader.FindLinksTwo(references1, references2);
+                _links = rLinkLoader.FindLinksTwo(from, to);
             }
 
         public event PropertyChangedEventHandler? PropertyChanged;

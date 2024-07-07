@@ -49,21 +49,19 @@ namespace ViewModel
         {
             this.bible = bible;
         }
-        public void LoadProperties(string requirement)
+        public void LoadProperties(List<Reference> requirementReferences)
         {
-                List<Reference> requirementReferences = ip.Parse(requirement);
-                StringBuilder text = new StringBuilder();
-                foreach (Reference reference in requirementReferences)
+            StringBuilder text = new StringBuilder();
+            foreach (Reference reference in requirementReferences)
+            {
+                VerseEnumerator vs = bible.GetEnumerator(reference);
+                while(vs.MoveNext()) 
                 {
-                    VerseEnumerator vs = bible.GetEnumerator(reference);
-                    while(vs.MoveNext()) 
-                    {
-                        Verse current = vs.Current();
-                        text.Append($"{current.bookShort} {current.chapter}:{current.verse}  {current.text}" + Environment.NewLine + Environment.NewLine);
-                    } 
-                }
-                RequirementDescription = requirement;
-                Text = text.ToString();
+                    Verse current = vs.Current();
+                    text.Append($"{current.bookShort} {current.chapter}:{current.verse}  {current.text}" + Environment.NewLine + Environment.NewLine);
+                } 
+            }
+            Text = text.ToString();
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 
