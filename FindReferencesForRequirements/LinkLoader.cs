@@ -242,7 +242,7 @@ namespace FindLinksForRequirements
                         }
                         else
                         {
-                            chapterEnd = chapter;
+                            chapterEnd = 0;
                         }
                         var verseEnd = reader.IsDBNull(i) ? 0 : reader.GetInt32(i++);
                         var bookTo = reader.IsDBNull(i) ? 0 : reader.GetInt32(i++);
@@ -255,7 +255,7 @@ namespace FindLinksForRequirements
                         }
                         else
                         {
-                            chapterToEnd = chapterTo;
+                            chapterToEnd = 0;
                         }
                         var verseToEnd = reader.IsDBNull(i) ? 0 : reader.GetInt32(i);
                         Reference source = new Reference(book, chapter, verse, chapterEnd, verseEnd);
