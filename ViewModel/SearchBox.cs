@@ -67,6 +67,17 @@ namespace ViewModel
         }
 
         public bool addedRequirement = false;
+        private bool _searchinRequirementLinks = true;
+        public bool SearchingRequirementLinks
+        {
+            get { return _searchinRequirementLinks; }
+            set
+            {
+                if (_searchinRequirementLinks == value) return;
+                _searchinRequirementLinks = value;
+                OnPropertyChanged(nameof(SearchingRequirementLinks));
+            }
+        }
 
         public SearchBoxRequierement(string path)
         {

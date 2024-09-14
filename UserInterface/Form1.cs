@@ -1,3 +1,4 @@
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
@@ -58,7 +59,10 @@ namespace UserInterface
             RequirementTextBox1.DataBindings.Add("ForeColor", MV.searchBox, "InputTextColor1");
             RequirementTextBox2.DataBindings.Add("ForeColor", MV.searchBox, "InputTextColor2");
 
-
+            ThemeComboBox.DropDownStyle = ComboBoxStyle.DropDown;
+            ThemeComboBox.DataSource = new BindingSource(MV.availableThemes, null);
+            ThemeComboBox.AutoCompleteMode = AutoCompleteMode.Suggest;
+            ThemeComboBox.AutoCompleteSource = AutoCompleteSource.ListItems;
 
             // Check first pick state
             RadioButton[] buttons = { allButton, fromButton, toButton, insideButton };
@@ -114,6 +118,7 @@ namespace UserInterface
             verse.DataBindings.Add("Text", linkBox, "Text");
             sourceLabel.DataBindings.Add("Text", linkBox, "SourceLabel");
             targetLabel.DataBindings.Add("Text", linkBox, "TargetLabel");
+            t.DataBindings.Add("Visible", MV.searchBox, "SearchingRequirementLinks");
             occurance.DataBindings.Add("Text", linkBox, "Occurance");
             //databinding - buttons
             back.DataBindings.Add("Visible", linkBox, "Back");
@@ -192,6 +197,7 @@ namespace UserInterface
                     StateLabel.Visible = true;
                     StateTable.Visible = true;
                     SwitchButton.Visible = false;
+                    SearchThemebutton.Visible = true;
                 }
                 else
                 {
@@ -201,6 +207,7 @@ namespace UserInterface
                     StateLabel.Visible = false;
                     StateTable.Visible = false;
                     SwitchButton.Visible = true;
+                    SearchThemebutton.Visible = false;
                 }
             }
         }
@@ -208,7 +215,20 @@ namespace UserInterface
         private void SearchButton_Click(object sender, EventArgs e)
         {
             helpRichTextBox.Visible = false;
-            MV.Search(RequirementTextBox1.Text, RequirementTextBox2.Text);
+            if(MV.searchBox.SearchingRequirementLinks)
+            {
+                MV.Search(RequirementTextBox1.Text, RequirementTextBox2.Text);
+                return;
+                
+            }
+            if (ThemeComboBox.SelectedItem == null)
+                return;
+
+            else
+            {
+                MV.Search(ThemeComboBox.SelectedItem.ToString(), "");
+            }
+
         }
         private void VerseTextChanged(object? sender, EventArgs e)
         {
@@ -303,6 +323,55 @@ namespace UserInterface
         private void HelpButton_Click(object sender, EventArgs e)
         {
             helpRichTextBox.Visible = !helpRichTextBox.Visible;
+        }
+
+        private void SearchThemebutton_Click(object sender, EventArgs e)
+        {
+            MV.Clean("");
+            if (MV.searchBox.SearchingRequirementLinks)
+            {
+                SearchThemebutton.Text = "Search References";
+
+                MV.searchBox.SearchingRequirementLinks = false;
+                // no added requirement for themes
+                PlusButton.Visible = false;
+                // no changing states for themes
+                StateTable.Visible = false;
+                StateLabel.Visible = false;
+                // no target in themes
+                targetRadioButton.Visible = false;
+                MV.searchBox.StateIndex = 2;
+                //no showing targets/source
+                showLabel.Visible = false;
+                SourceButton.Visible = false;
+                TargetButton.Visible = false;
+
+
+                ThemeComboBox.Visible = true;
+                RequirementTextBox1.Visible = false;
+
+            }
+            else
+            {
+
+                MV.searchBox.SearchingRequirementLinks = true;
+                // enable added requirement
+                PlusButton.Visible = true;
+                // enable changing states
+                StateTable.Visible = true;
+                StateLabel.Visible = true;
+                // enable target sorting
+                targetRadioButton.Visible = true;
+                //enable showing targets/source
+                showLabel.Visible = true;
+                SourceButton.Visible = true;
+                TargetButton.Visible = true;
+
+                // switch comboBoxthemes for a textBox for writing req
+                ThemeComboBox.Visible = false;
+                RequirementTextBox1.Visible = true;
+                SearchThemebutton.Text = "Search Theme";
+            }
         }
     }
 }

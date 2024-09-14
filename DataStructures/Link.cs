@@ -10,13 +10,19 @@ namespace DataStructures
     public class Link 
     {
         public readonly Reference source;
-        public readonly Reference target;
+        public readonly Reference? target;
         public int Occurance { get; set; }
         public Link(Reference source, Reference target)
         {
             this.source = source;
             this.target = target;
             Occurance = 1; 
+        }
+        public Link(Reference source)
+        {
+            this.source= source;
+            this.target = null;
+            Occurance = 1;
         }
         public void IncreaseOccurance()=>Occurance++;
         public void IncreaseOccuranceBy (int increase) => Occurance += increase;
@@ -47,13 +53,17 @@ namespace DataStructures
 
         public bool To(List<Reference> requirements)
         {
-            foreach(Reference reference in requirements)
+            if (target is Reference validTarget)
             {
-                if (target.FitsInto(reference))
+                foreach (Reference reference in requirements)
                 {
-                    return true;
+                    if (validTarget.FitsInto(reference))
+                    {
+                        return true;
+                    }
                 }
             }
+            
             return false;
         }
         public bool From(List<Reference> requirements) 
@@ -71,29 +81,37 @@ namespace DataStructures
         {
             bool sourceFits = false;
             bool targetFits = false;
-            foreach (Reference reference in requirements)
+            if (target is Reference validTarget)
             {
-                if (source.FitsInto(reference))
+                foreach (Reference reference in requirements)
                 {
-                    sourceFits = true;
+                    if (source.FitsInto(reference))
+                    {
+                        sourceFits = true;
+                    }
+                    if (validTarget.FitsInto(reference))
+                    {
+                        targetFits = true;
+                    }
                 }
-                if (target.FitsInto(reference))
-                {
-                    targetFits = true;
-                }
+                return sourceFits && targetFits;
             }
-            return sourceFits && targetFits;
+            return sourceFits;
         }
         public bool All(List<Reference> requirements) 
         {
-            foreach (Reference reference in requirements)
+            if (target is Reference validTarget)
             {
-                if (source.FitsInto(reference)||target.FitsInto(reference))
+                foreach (Reference reference in requirements)
                 {
-                    return true;
+                    if (source.FitsInto(reference) || validTarget.FitsInto(reference))
+                    {
+                        return true;
+                    }
                 }
+                return false;
             }
-            return false;
+            else return From(requirements);
         }
         public class OccuranceComparer : IComparer<Link>
         {
@@ -105,7 +123,15 @@ namespace DataStructures
         }
         public class TargetComparer : IComparer<Link>
         {
-            public int Compare(Link x, Link y) => x.target.CompareTo(y.target);
+            public int Compare(Link x, Link y)
+            {
+                if(x.target is Reference validXTarget && y.target is Reference validYTarget)
+                {
+                    return validXTarget.CompareTo(validYTarget);
+
+                }
+                return 0;
+            }
         }
 
     }

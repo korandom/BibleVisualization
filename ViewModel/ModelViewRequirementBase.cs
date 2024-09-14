@@ -72,6 +72,8 @@ namespace ViewModel
 
         int currentLinkIndex=0;
         List<Link> _links;
+        public List<string> availableThemes;
+
         public static int numberOfLinkBoxes = 7;
         public LinkBox[] linkBoxes = new LinkBox[numberOfLinkBoxes];
         public RequirementBox requirementBox;
@@ -93,6 +95,7 @@ namespace ViewModel
             requirementBox = new RequirementBox(bt);
 
             rLinkLoader = GetLoader(sourcesPath);
+            availableThemes = rLinkLoader.GetThemes();
             More = false;
             Previous = false;
             sources = true;
@@ -128,7 +131,10 @@ namespace ViewModel
             List<string>? comToUse = (selectedCommentaries=="") ? null : GetList (selectedCommentaries);
             string? selectedCrossreferences = ConfigurationManager.AppSettings.Get("CrossreferenceToUse");
             List<string>? crossToUse = (selectedCrossreferences == "") ? null : GetList(selectedCrossreferences);
-            return new ReferenceLinkLoader(sourcePath + "\\Preprocessed", sourcePath + "\\CrossReferences", comToUse, crossToUse);
+            string? selectedDictionaries = ConfigurationManager.AppSettings.Get("DictionariesToUse");
+            List<string>? dicToUse = (selectedDictionaries == "") ? null : GetList(selectedDictionaries);
+
+            return new ReferenceLinkLoader(sourcePath + "\\Preprocessed", sourcePath + "\\CrossReferences", sourcePath + "\\Preprocessed", comToUse, crossToUse, dicToUse);
         }
         private List<string>? GetList(string? text)
         {
@@ -188,6 +194,23 @@ namespace ViewModel
         {
             currentLinkIndex = 0;
 
+
+            if (searchBox.SearchingRequirementLinks)
+            {
+                LoadLinks(req1, req2);
+            }
+            else
+            {
+                LoadLinksTheme(req1);
+            }
+
+            ShowSources();
+            SortLinks();
+            RefreshLinkBoxes();
+        }
+
+        public void LoadLinks(string req1, string req2)
+        {
             // parse and validate input for first value
             Color result;
             List<Reference> first = ParseAndValidateInput(req1, out result);
@@ -208,22 +231,17 @@ namespace ViewModel
 
             else LoadLinksOne(first);
 
-            SortLinks();
             requirementBox.RequirementDescription = searchBox.addedRequirement ? req1 + req2 : req1;
             Count = _links.Count;
-            RefreshLinkBoxes();
-            
 
             if (Count > 0)
             {
-                if(searchBox.addedRequirement) first.AddRange(second);
+                if (searchBox.addedRequirement) first.AddRange(second);
                 requirementBox.LoadProperties(first);
             }
             else requirementBox.Text = "No links found";
-
-            
         }
-        private void Clean( string message)
+        public void Clean( string message)
         {
             _links = new List<Link>();
             Count = 0;
@@ -241,8 +259,14 @@ namespace ViewModel
         private void LoadLinksTwo(List<Reference> from, List<Reference> to)
         {
                 _links = rLinkLoader.FindLinksTwo(from, to);
-            }
-
+        }
+        private void LoadLinksTheme(string theme)
+        {
+            requirementBox.RequirementDescription = theme;
+            requirementBox.Text = "";
+            _links = rLinkLoader.FindThemeLinks(theme);
+            Count = _links.Count;
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

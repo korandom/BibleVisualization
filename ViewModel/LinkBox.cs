@@ -135,22 +135,34 @@ namespace ViewModel
             }
             return "all";
         }
-        public void LoadProperties(Link link)
+        private void InitialLinkSetUP(Link link)
         {
-            this.link = link;
-
+            SourceLabel = GetStringRepresentation(link.source);
+            TargetLabel = "";
+            if(link.target != null)
+            {
+                TargetLabel = GetStringRepresentation((Reference)link.target);
+            } 
             if (source)
             {
                 verseEnumerator = bible.GetEnumerator(link.source);
             }
-            else verseEnumerator = bible.GetEnumerator(link.target);
+            else if (link.target is Reference validTarget)
+            {
+                verseEnumerator = bible.GetEnumerator(validTarget);
+            }
+            Occurance = link.GetOccurance();
+        }
+        public void LoadProperties(Link link)
+        {
+            this.link = link;
+
+            InitialLinkSetUP(link);
+
             if (verseEnumerator.MoveNext())
             {
-                SourceLabel = GetStringRepresentation(link.source);
-                TargetLabel = GetStringRepresentation(link.target);
                 Visible = true;
                 SetToVerse(verseEnumerator.Current());
-                Occurance = link.Occurance;
             }
             else
             {
@@ -193,10 +205,10 @@ namespace ViewModel
         }
         public void ShowTarget()
         {
-            if (source && link is not null)
+            if (source && link is not null && link.target is Reference validTarget)
             {
                 source = false;
-                verseEnumerator = bible.GetEnumerator(link.target);
+                verseEnumerator = bible.GetEnumerator(validTarget);
                 if (verseEnumerator.MoveNext())
                 {
                     SetToVerse(verseEnumerator.Current());
