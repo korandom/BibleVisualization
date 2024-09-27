@@ -95,7 +95,10 @@ namespace DataStructures
 
         }
         private bool FitsIntoChapters(Reference requirement)
-            => chapterStart >= requirement.chapterStart && chapterEnd <= requirement.chapterEnd;
+        {
+            return  chapterStart >= requirement.chapterStart && ((chapterEnd == 0 ? chapterStart: chapterEnd) <= requirement.chapterEnd);
+
+        }
         private bool FitsIntoMultipleVerses(Reference requirement)
         {
             bool fits = true;

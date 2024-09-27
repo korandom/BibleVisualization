@@ -71,8 +71,13 @@ namespace ViewModel
         BibleText bt;
 
         int currentLinkIndex=0;
+
         List<Link> _links;
-        public List<string> availableThemes;
+        public List<Link> Links {
+            get { return _links; } 
+        }
+
+        public readonly List<string> availableThemes;
 
         public static int numberOfLinkBoxes = 7;
         public LinkBox[] linkBoxes = new LinkBox[numberOfLinkBoxes];
@@ -175,6 +180,7 @@ namespace ViewModel
             Previous = currentLinkIndex - numberOfLinkBoxes >= 0;
             More = Count > currentLinkIndex + numberOfLinkBoxes;
         }
+
         private List<Reference> ParseAndValidateInput(string input, out Color resultingColor)
         {
             try
@@ -190,6 +196,7 @@ namespace ViewModel
                 return new List<Reference>();
             }
         }
+
         public void Search(string req1, string req2)
         {
             currentLinkIndex = 0;
@@ -209,7 +216,7 @@ namespace ViewModel
             RefreshLinkBoxes();
         }
 
-        public void LoadLinks(string req1, string req2)
+        private void LoadLinks(string req1, string req2)
         {
             // parse and validate input for first value
             Color result;
@@ -311,7 +318,8 @@ namespace ViewModel
             currentLinkIndex = 0;
             RefreshLinkBoxes();
         }
-        public void SortLinks()
+
+        private void SortLinks()
         {
             switch(SortingWay)
             {
@@ -333,6 +341,11 @@ namespace ViewModel
                 default: { break; }
 
             }
+        }
+
+        public void showVisualizationInAvalonia()
+        {
+
         }
 
     }

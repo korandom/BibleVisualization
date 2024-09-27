@@ -1,3 +1,6 @@
+using Avalonia;
+using Visualization;
+
 namespace UserInterface
 {
     internal static class Program
@@ -10,18 +13,19 @@ namespace UserInterface
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            
-            
-            
-            
-            
-            
+
+            // configuring avalonia app
+            AppBuilder.Configure<App>()
+                .UsePlatformDetect()
+                .UseSkia()
+                .SetupWithoutStarting();
+
             ApplicationConfiguration.Initialize();
             if (args.Length == 0)
-              Application.Run(new Form1());
+                System.Windows.Forms.Application.Run(new Form1());
 
             else
-                Application.Run(new Form1(args));
+                System.Windows.Forms.Application.Run(new Form1(args));
 
         }
     }

@@ -21,7 +21,7 @@ namespace DataStructures
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((BookElement)element).ShortName;
+            return ((BookElement)element).Number;
         }
     }
 
@@ -46,6 +46,20 @@ namespace DataStructures
         {
             get { return (int)this["number"]; }
             set { this["number"] = value; }
+        }
+
+        [ConfigurationProperty("color", IsRequired = true)]
+        public string Color
+        {
+            get { return (string)this["color"]; }
+            set { this["color"] = value; }
+        }
+
+        [ConfigurationProperty("chapters", IsRequired = true)]
+        public string Chapters
+        {
+            get { return (string)this["chapters"]; }
+            set { this["chapters"] = value; }
         }
     }
 }

@@ -9,25 +9,25 @@ namespace DataStructures
 {
     public static class NumberToBook
     {
-        public static Dictionary<int, string> bookNumberToName;
+        public static Dictionary<int, string> bookNumberToShortName = new Dictionary<int, string>();
+        public static Dictionary<int, string> bookNumberToLongName = new Dictionary<int, string>();
 
         static NumberToBook()
         {
-            bookNumberToName = LoadDictionaryFromConfig();
+            Initialize();
         }
 
-        private static Dictionary<int, string> LoadDictionaryFromConfig()
+        private static void Initialize()
         {
-            Dictionary<int, string> dictionary = new Dictionary<int, string>();
             var section = (BookSection)ConfigurationManager.GetSection("bookSection");
             if (section != null)
             {
                 foreach (BookElement element in section.Books)
                 {
-                    dictionary[element.Number] = element.ShortName;
+                    bookNumberToShortName[element.Number] = element.ShortName;
+                    bookNumberToLongName[element.Number] = element.LongName;
                 }
             }
-            return dictionary;
         }
     }
     public struct Verse
@@ -41,7 +41,7 @@ namespace DataStructures
         public Verse(int book, int chapter, int verse, string text)
         {
             this.book = book;
-            this.bookShort = NumberToBook.bookNumberToName[book];
+            this.bookShort = NumberToBook.bookNumberToShortName[book];
             this.chapter = chapter;
             this.verse = verse;
             this.text = text;

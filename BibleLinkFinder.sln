@@ -13,6 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ViewModel", "ViewModel\View
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserInterface", "UserInterface\UserInterface.csproj", "{38D59885-3CB0-4D20-8296-785DB195E706}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Visualization", "Visualization\Visualization.csproj", "{09DFF16E-C484-48B3-ABCF-15AD3789218D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{12F869FC-D95F-45D2-AD5F-8A65D0CB77EA} = {12F869FC-D95F-45D2-AD5F-8A65D0CB77EA}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +44,10 @@ Global
 		{38D59885-3CB0-4D20-8296-785DB195E706}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38D59885-3CB0-4D20-8296-785DB195E706}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38D59885-3CB0-4D20-8296-785DB195E706}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09DFF16E-C484-48B3-ABCF-15AD3789218D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09DFF16E-C484-48B3-ABCF-15AD3789218D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09DFF16E-C484-48B3-ABCF-15AD3789218D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09DFF16E-C484-48B3-ABCF-15AD3789218D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

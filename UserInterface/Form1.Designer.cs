@@ -52,10 +52,14 @@
             ThemeComboBox = new ComboBox();
             RequirementTextBox1 = new TextBox();
             VerseSplitContainer = new SplitContainer();
-            helpRichTextBox = new RichTextBox();
             versesRequirementSplitContainer = new SplitContainer();
             RequirementLabel = new Label();
             RequirementVersesLabel = new Label();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            tableLayoutPanel6 = new TableLayoutPanel();
+            ChordDiagramButton = new Button();
+            TwoLineDiagramButton = new Button();
+            panel2 = new Panel();
             RequirementTextBox = new RichTextBox();
             FoundVersesTable = new TableLayoutPanel();
             splitContainer2 = new SplitContainer();
@@ -75,6 +79,7 @@
             tableLayoutPanel8 = new TableLayoutPanel();
             label6 = new Label();
             button1 = new Button();
+            helpRichTextBox = new RichTextBox();
             ((System.ComponentModel.ISupportInitialize)MainLayoutSplitContainer1).BeginInit();
             MainLayoutSplitContainer1.Panel1.SuspendLayout();
             MainLayoutSplitContainer1.Panel2.SuspendLayout();
@@ -91,6 +96,9 @@
             versesRequirementSplitContainer.Panel1.SuspendLayout();
             versesRequirementSplitContainer.Panel2.SuspendLayout();
             versesRequirementSplitContainer.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
+            tableLayoutPanel6.SuspendLayout();
+            panel2.SuspendLayout();
             FoundVersesTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitContainer2).BeginInit();
             splitContainer2.Panel1.SuspendLayout();
@@ -361,7 +369,7 @@
             // RequirementTextBox2
             // 
             RequirementTextBox2.Dock = DockStyle.Fill;
-            RequirementTextBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            RequirementTextBox2.Font = new Font("Segoe UI", 10.2F);
             RequirementTextBox2.Location = new Point(761, 47);
             RequirementTextBox2.Name = "RequirementTextBox2";
             tableLayoutPanel2.SetRowSpan(RequirementTextBox2, 2);
@@ -372,7 +380,7 @@
             // HelpButton
             // 
             HelpButton.BackColor = Color.LightSteelBlue;
-            HelpButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            HelpButton.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             HelpButton.Location = new Point(3, 47);
             HelpButton.Name = "HelpButton";
             tableLayoutPanel2.SetRowSpan(HelpButton, 2);
@@ -419,7 +427,7 @@
             // RequirementTextBox1
             // 
             RequirementTextBox1.Dock = DockStyle.Fill;
-            RequirementTextBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            RequirementTextBox1.Font = new Font("Segoe UI", 10.2F);
             RequirementTextBox1.Location = new Point(0, 0);
             RequirementTextBox1.Name = "RequirementTextBox1";
             RequirementTextBox1.Size = new Size(260, 30);
@@ -435,7 +443,6 @@
             // 
             // VerseSplitContainer.Panel1
             // 
-            VerseSplitContainer.Panel1.Controls.Add(helpRichTextBox);
             VerseSplitContainer.Panel1.Controls.Add(versesRequirementSplitContainer);
             // 
             // VerseSplitContainer.Panel2
@@ -444,16 +451,6 @@
             VerseSplitContainer.Size = new Size(1223, 644);
             VerseSplitContainer.SplitterDistance = 407;
             VerseSplitContainer.TabIndex = 0;
-            // 
-            // helpRichTextBox
-            // 
-            helpRichTextBox.Dock = DockStyle.Fill;
-            helpRichTextBox.Location = new Point(0, 0);
-            helpRichTextBox.Name = "helpRichTextBox";
-            helpRichTextBox.Size = new Size(405, 642);
-            helpRichTextBox.TabIndex = 4;
-            helpRichTextBox.Text = "";
-            helpRichTextBox.Visible = false;
             // 
             // versesRequirementSplitContainer
             // 
@@ -469,7 +466,7 @@
             // 
             // versesRequirementSplitContainer.Panel2
             // 
-            versesRequirementSplitContainer.Panel2.Controls.Add(RequirementTextBox);
+            versesRequirementSplitContainer.Panel2.Controls.Add(tableLayoutPanel3);
             versesRequirementSplitContainer.Panel2.Padding = new Padding(5);
             versesRequirementSplitContainer.Size = new Size(405, 642);
             versesRequirementSplitContainer.SplitterDistance = 69;
@@ -480,7 +477,7 @@
             RequirementLabel.AllowDrop = true;
             RequirementLabel.AutoSize = true;
             RequirementLabel.Dock = DockStyle.Left;
-            RequirementLabel.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
+            RequirementLabel.Font = new Font("Segoe UI", 10.2F);
             RequirementLabel.Location = new Point(0, 38);
             RequirementLabel.Name = "RequirementLabel";
             RequirementLabel.Padding = new Padding(5, 0, 5, 0);
@@ -493,7 +490,7 @@
             // 
             RequirementVersesLabel.AutoSize = true;
             RequirementVersesLabel.Dock = DockStyle.Top;
-            RequirementVersesLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            RequirementVersesLabel.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             RequirementVersesLabel.Location = new Point(0, 0);
             RequirementVersesLabel.Name = "RequirementVersesLabel";
             RequirementVersesLabel.Padding = new Padding(5);
@@ -502,15 +499,79 @@
             RequirementVersesLabel.Text = "Verses of User Requirement";
             RequirementVersesLabel.TextAlign = ContentAlignment.MiddleLeft;
             // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.Controls.Add(tableLayoutPanel6, 0, 1);
+            tableLayoutPanel3.Controls.Add(panel2, 0, 0);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(5, 5);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel3.Size = new Size(395, 559);
+            tableLayoutPanel3.TabIndex = 0;
+            // 
+            // tableLayoutPanel6
+            // 
+            tableLayoutPanel6.ColumnCount = 2;
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Controls.Add(ChordDiagramButton, 0, 0);
+            tableLayoutPanel6.Controls.Add(TwoLineDiagramButton, 0, 0);
+            tableLayoutPanel6.Dock = DockStyle.Fill;
+            tableLayoutPanel6.Location = new Point(3, 522);
+            tableLayoutPanel6.Name = "tableLayoutPanel6";
+            tableLayoutPanel6.RowCount = 1;
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel6.Size = new Size(389, 34);
+            tableLayoutPanel6.TabIndex = 10;
+            // 
+            // ChordDiagramButton
+            // 
+            ChordDiagramButton.Dock = DockStyle.Fill;
+            ChordDiagramButton.Location = new Point(197, 3);
+            ChordDiagramButton.Name = "ChordDiagramButton";
+            ChordDiagramButton.Size = new Size(189, 28);
+            ChordDiagramButton.TabIndex = 3;
+            ChordDiagramButton.Text = "Chord Diagram";
+            ChordDiagramButton.UseVisualStyleBackColor = true;
+            ChordDiagramButton.Visible = false;
+            ChordDiagramButton.Click += ChordDiagramButton_Click;
+            // 
+            // TwoLineDiagramButton
+            // 
+            TwoLineDiagramButton.Dock = DockStyle.Fill;
+            TwoLineDiagramButton.Location = new Point(3, 3);
+            TwoLineDiagramButton.Name = "TwoLineDiagramButton";
+            TwoLineDiagramButton.Size = new Size(188, 28);
+            TwoLineDiagramButton.TabIndex = 2;
+            TwoLineDiagramButton.Text = "Two Lines Diagram";
+            TwoLineDiagramButton.UseVisualStyleBackColor = true;
+            TwoLineDiagramButton.Visible = false;
+            TwoLineDiagramButton.Click += TwoLineDiagramButton_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(RequirementTextBox);
+            panel2.Dock = DockStyle.Fill;
+            panel2.Location = new Point(3, 3);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(389, 513);
+            panel2.TabIndex = 11;
+            // 
             // RequirementTextBox
             // 
             RequirementTextBox.Dock = DockStyle.Fill;
-            RequirementTextBox.Font = new Font("Segoe UI", 10.2F, FontStyle.Regular, GraphicsUnit.Point);
-            RequirementTextBox.Location = new Point(5, 5);
+            RequirementTextBox.Font = new Font("Segoe UI", 10.2F);
+            RequirementTextBox.Location = new Point(0, 0);
             RequirementTextBox.Name = "RequirementTextBox";
             RequirementTextBox.ReadOnly = true;
-            RequirementTextBox.Size = new Size(395, 559);
-            RequirementTextBox.TabIndex = 0;
+            RequirementTextBox.Size = new Size(389, 513);
+            RequirementTextBox.TabIndex = 11;
             RequirementTextBox.Text = "";
             // 
             // FoundVersesTable
@@ -604,7 +665,7 @@
             // 
             label7.AutoSize = true;
             label7.Dock = DockStyle.Fill;
-            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label7.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             label7.Location = new Point(3, 0);
             label7.Name = "label7";
             label7.Padding = new Padding(5);
@@ -648,7 +709,7 @@
             // 
             Count.AutoSize = true;
             Count.Dock = DockStyle.Left;
-            Count.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            Count.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold);
             Count.Location = new Point(688, 0);
             Count.Name = "Count";
             Count.Size = new Size(13, 44);
@@ -750,11 +811,21 @@
             button1.Text = "source";
             button1.UseVisualStyleBackColor = true;
             // 
+            // helpRichTextBox
+            // 
+            helpRichTextBox.Location = new Point(5, 96);
+            helpRichTextBox.Name = "helpRichTextBox";
+            helpRichTextBox.Size = new Size(400, 595);
+            helpRichTextBox.TabIndex = 8;
+            helpRichTextBox.Text = "";
+            helpRichTextBox.Visible = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1223, 738);
+            Controls.Add(helpRichTextBox);
             Controls.Add(MainLayoutSplitContainer1);
             MinimumSize = new Size(1241, 741);
             Name = "Form1";
@@ -781,6 +852,9 @@
             versesRequirementSplitContainer.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)versesRequirementSplitContainer).EndInit();
             versesRequirementSplitContainer.ResumeLayout(false);
+            tableLayoutPanel3.ResumeLayout(false);
+            tableLayoutPanel6.ResumeLayout(false);
+            panel2.ResumeLayout(false);
             FoundVersesTable.ResumeLayout(false);
             splitContainer2.Panel1.ResumeLayout(false);
             splitContainer2.Panel2.ResumeLayout(false);
@@ -808,7 +882,6 @@
         private SplitContainer versesRequirementSplitContainer;
         private Label RequirementLabel;
         private Label RequirementVersesLabel;
-        private RichTextBox RequirementTextBox;
         private Button PreviousButton;
         private Button MoreButton;
         private TableLayoutPanel tableLayoutPanel2;
@@ -839,10 +912,16 @@
         private Label StateLabel;
         private TextBox RequirementTextBox2;
         private Button HelpButton;
-        private RichTextBox helpRichTextBox;
         private Button SearchThemebutton;
         private Panel panel1;
         private ComboBox ThemeComboBox;
         private TextBox RequirementTextBox1;
+        private TableLayoutPanel tableLayoutPanel3;
+        private TableLayoutPanel tableLayoutPanel6;
+        private Panel panel2;
+        private RichTextBox RequirementTextBox;
+        private RichTextBox helpRichTextBox;
+        private Button ChordDiagramButton;
+        private Button TwoLineDiagramButton;
     }
 }

@@ -123,7 +123,7 @@ namespace ViewModel
                 string book;
                 try
                 {
-                    book = NumberToBook.bookNumberToName[r.book];
+                    book = NumberToBook.bookNumberToShortName[r.book];
                 }
                 catch { return "book not found"; };
                 string chapterS = (r.chapterStart == 0) ? "" : $" {r.chapterStart}";

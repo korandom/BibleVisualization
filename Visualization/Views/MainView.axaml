@@ -1,0 +1,75 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Visualization.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Visualization.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+	<Grid>
+		<Canvas>
+			<Border BorderBrush="Transparent"
+					BorderThickness="2"
+					Background="DarkGray"
+					CornerRadius="5"
+					Padding="10"
+					Canvas.Top="{Binding ThemePoint.Y}"
+					Canvas.Left="{Binding ThemePoint.X}"
+					LayoutUpdated="OnThemeTextLayoutUpdated"
+					IsVisible="{Binding WithTheme}">
+				
+				<TextBlock Text="{Binding Theme}"
+						   FontSize="16"
+						   Foreground="White"
+						   VerticalAlignment="Center"
+						   HorizontalAlignment="Center"/>
+			</Border>
+					   
+		</Canvas>
+		
+		<ItemsControl ItemsSource="{Binding Links}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Canvas />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Path Data="{Binding Geometry}"
+								Stroke="{Binding ColorBrush}"
+								StrokeThickness="{Binding DataContext.LinkThickness, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+								Opacity="0.5"/>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+		<ItemsControl ItemsSource="{Binding Books}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Canvas />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Canvas>
+						<Path Data="{Binding Geometry}"
+								Stroke="{Binding ColorBrush}"
+								StrokeThickness="{Binding DataContext.BookThickness, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+						<Path Data="{Binding Geometry}"
+								Stroke="Transparent"
+								ToolTip.Tip="{Binding Name}"
+								ToolTip.ShowDelay="200"
+								StrokeThickness="50"/>
+					</Canvas>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+	</Grid>
+</UserControl>

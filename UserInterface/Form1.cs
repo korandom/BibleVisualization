@@ -215,11 +215,13 @@ namespace UserInterface
         private void SearchButton_Click(object sender, EventArgs e)
         {
             helpRichTextBox.Visible = false;
-            if(MV.searchBox.SearchingRequirementLinks)
+            if (MV.searchBox.SearchingRequirementLinks)
             {
                 MV.Search(RequirementTextBox1.Text, RequirementTextBox2.Text);
+                ChordDiagramButton.Visible = true;
+                TwoLineDiagramButton.Visible = true;
                 return;
-                
+
             }
             if (ThemeComboBox.SelectedItem == null)
                 return;
@@ -227,6 +229,8 @@ namespace UserInterface
             else
             {
                 MV.Search(ThemeComboBox.SelectedItem.ToString(), "");
+                TwoLineDiagramButton.Visible= true;
+                ChordDiagramButton.Visible = false;
             }
 
         }
@@ -328,6 +332,10 @@ namespace UserInterface
         private void SearchThemebutton_Click(object sender, EventArgs e)
         {
             MV.Clean("");
+            // disable visualizations before search
+            ChordDiagramButton.Visible = false;
+            TwoLineDiagramButton.Visible = false;
+
             if (MV.searchBox.SearchingRequirementLinks)
             {
                 SearchThemebutton.Text = "Search References";
@@ -345,7 +353,6 @@ namespace UserInterface
                 showLabel.Visible = false;
                 SourceButton.Visible = false;
                 TargetButton.Visible = false;
-
 
                 ThemeComboBox.Visible = true;
                 RequirementTextBox1.Visible = false;
@@ -371,6 +378,26 @@ namespace UserInterface
                 ThemeComboBox.Visible = false;
                 RequirementTextBox1.Visible = true;
                 SearchThemebutton.Text = "Search Theme";
+            }
+        }
+
+        private void ChordDiagramButton_Click(object sender, EventArgs e)
+        {
+            VisualizationForm visualizationForm = new VisualizationForm(MV.Links, Visualization.Util.DiagramType.Chord);
+            visualizationForm.Show();
+        }
+
+        private void TwoLineDiagramButton_Click(object sender, EventArgs e)
+        {
+            if(MV.searchBox.SearchingRequirementLinks)
+            {
+                VisualizationForm visualizationForm = new VisualizationForm(MV.Links, Visualization.Util.DiagramType.TwoLines);
+                visualizationForm.Show();
+            }
+            else
+            {
+                VisualizationForm visualizationForm = new VisualizationForm(MV.Links, ThemeComboBox.SelectedItem.ToString());
+                visualizationForm.Show();
             }
         }
     }
