@@ -281,8 +281,9 @@ namespace Visualization.Util
             int totalVerseCount = books.Sum(book => book.VerseCount);
             int gap = getGap();
             int gapSum = gap * (books.Count - 1);
-            double partPerVerse =( 1.0 / (totalVerseCount + gapSum)) * topFactor;
+            double partPerVerse =( 1.0 / (totalVerseCount + gapSum));
             double equalPartPerBook = (1.0 - (gapSum * partPerVerse)) / books.Count;
+            partPerVerse *= topFactor;
             bool sameLengthBooks = areBooksSameLength();
             double specificBookPart = 0.0;
 

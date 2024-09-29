@@ -151,7 +151,7 @@ namespace ViewModel
             {
                 verseEnumerator = bible.GetEnumerator(validTarget);
             }
-            Occurance = link.GetOccurance();
+            Occurance = link.Occurance;
         }
         public void LoadProperties(Link link)
         {

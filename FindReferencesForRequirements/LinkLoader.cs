@@ -141,7 +141,7 @@ namespace FindLinksForRequirements
                                 if (linkFromDic == link)
                                 {
                                     found = true;
-                                    int occurance = link.GetOccurance();
+                                    int occurance = link.Occurance;
                                     linkFromDic.IncreaseOccuranceBy(occurance);
                                     break;
                                 }
@@ -218,7 +218,7 @@ namespace FindLinksForRequirements
                                 if (linkFromDic == link)
                                 {
                                     found = true;
-                                    int occurance = link.GetOccurance();
+                                    int occurance = link.Occurance;
                                     linkFromDic.IncreaseOccuranceBy(occurance);
                                     break;
                                 }

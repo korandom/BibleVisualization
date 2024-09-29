@@ -180,7 +180,7 @@ namespace Visualization.Diagrams
 
         private Point GetPointOnLine(double proportionalPosition)
         {
-            double pointX = startTopLine.X + Math.Abs(proportionalPosition) * lineLength;
+            double pointX = startTopLine.X + (Math.Abs(proportionalPosition) * lineLength);
             double pointY = (proportionalPosition > 0) ? startTopLine.Y : startTopLine.Y * 3;
             return new Point(pointX, pointY);
         }

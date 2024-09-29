@@ -24,9 +24,7 @@ namespace DataStructures
             this.target = null;
             Occurance = 1;
         }
-        public void IncreaseOccurance()=>Occurance++;
         public void IncreaseOccuranceBy (int increase) => Occurance += increase;
-        public int GetOccurance() => Occurance;
 
         public static bool operator == ( Link first, Link another)
         {

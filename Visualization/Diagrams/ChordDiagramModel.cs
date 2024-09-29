@@ -27,8 +27,8 @@ namespace Visualization.Diagrams
         private IBrush forwardLinkBrush;
         private IBrush backLinkBrush;
 
-        private double histogramMaxLength = 90;
-        private double histogramGap = 5;
+        private double histogramMaxLength = 200;
+        private double marginAroundBooks = 5;
 
         public ChordDiagramModel()
         {
@@ -136,8 +136,8 @@ namespace Visualization.Diagrams
 
         public PathGeometry GetLinkGeometry(VisualLink link)
         {
-            Point endPoint = GetPointOnCircle(link.endPosition, radius);
-            Point startPoint = GetPointOnCircle(link.startPosition, radius);
+            Point endPoint = GetPointOnCircle(link.endPosition, radius - marginAroundBooks);
+            Point startPoint = GetPointOnCircle(link.startPosition, radius - marginAroundBooks);
 
             Point controlPoint = GetControlPoint(curveParam, endPoint, startPoint);
 
@@ -201,18 +201,18 @@ namespace Visualization.Diagrams
             double end = histogramItem.EndPosition;
             double histogramLength = histogramItem.LengthProportional * histogramMaxLength;
 
-            Point A = GetPointOnCircle(start, radius + histogramGap);
+            Point A = GetPointOnCircle(start, radius + marginAroundBooks);
 
-            Point C = GetPointOnCircle(start, radius + histogramGap + histogramLength);
+            Point C = GetPointOnCircle(start, radius + marginAroundBooks + histogramLength);
 
             if (start == end)
             {
                 return GeometryHelper.GetStraightLine(A, C);
             }
 
-            Point B = GetPointOnCircle(end, radius + histogramGap);
+            Point B = GetPointOnCircle(end, radius + marginAroundBooks);
 
-            Point D = GetPointOnCircle (end, radius + histogramGap + histogramLength);
+            Point D = GetPointOnCircle (end, radius + marginAroundBooks + histogramLength);
 
             var figure = new PathFigure
             {
@@ -223,7 +223,7 @@ namespace Visualization.Diagrams
                     new ArcSegment
                     {
                         Point = B,
-                        Size = new Size(radius + histogramGap, radius + histogramGap),
+                        Size = new Size(radius + marginAroundBooks, radius + marginAroundBooks),
                         SweepDirection = SweepDirection.Clockwise,
                         IsLargeArc = end - start > Math.PI
                     },
@@ -234,7 +234,7 @@ namespace Visualization.Diagrams
                     new ArcSegment
                     {
                         Point = C,
-                        Size = new Size(radius + histogramGap + histogramLength, radius + histogramGap + histogramLength),
+                        Size = new Size(radius + marginAroundBooks + histogramLength, radius + marginAroundBooks + histogramLength),
                         SweepDirection = SweepDirection.Clockwise,
                         IsLargeArc = end - start > Math.PI
                     },

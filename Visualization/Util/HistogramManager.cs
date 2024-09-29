@@ -99,7 +99,10 @@ namespace Visualization.Util
             List<HistogramItem > histogramItems = new List<HistogramItem>();
             foreach (Book book in books)
             {
-                histogramItems.Add(new HistogramItem(book));
+                if(book.Occurance > 0)
+                {
+                    histogramItems.Add(new HistogramItem(book));
+                }
             }
             CalculateProportionalLengths(histogramItems);
             return histogramItems;
@@ -109,9 +112,12 @@ namespace Visualization.Util
             List<HistogramItem> histogramItems = new List<HistogramItem>();
             foreach(Book book in books)
             {
-                foreach( var kvp in book.Chapters)
+                foreach( var chapter in book.Chapters.Values)
                 {
-                    histogramItems.Add(new HistogramItem(book, kvp.Value));
+                    if(chapter.Occurance + book.DistributableOccurance > 0)
+                    {
+                        histogramItems.Add(new HistogramItem(book, chapter));
+                    }
                 }
             }
             CalculateProportionalLengths(histogramItems);
@@ -129,7 +135,10 @@ namespace Visualization.Util
                     {
                         Verse verse = kvpVerse.Value;
                         int occurance = verse.Occurance + chapter.DistributableOccurance + book.DistributableOccurance;
-                        histogramItems.Add(new HistogramItem(verse.Position, $"{chapter.Number}:{kvpVerse.Key}", verse.Occurance, book.ColorBrush));
+                        if(occurance > 0)
+                        {
+                            histogramItems.Add(new HistogramItem(verse.Position, $"{chapter.Number}:{kvpVerse.Key}", occurance, book.ColorBrush));
+                        }
                     }
                 }
             }
@@ -142,7 +151,7 @@ namespace Visualization.Util
             int maxOccurance = histogramItems.Max(item => item.Occurance);
             foreach( HistogramItem histogramItem in histogramItems)
             {
-                histogramItem.LengthProportional = (double)histogramItem.Occurance/maxOccurance;
+                histogramItem.LengthProportional = Math.Sqrt((double)histogramItem.Occurance)/Math.Sqrt(maxOccurance);
             }
         }
     }
