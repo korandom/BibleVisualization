@@ -30,6 +30,17 @@ public partial class MainViewModel : ViewModelBase
             OnPropertyChanged(nameof(Links));
         }
     }
+
+    private List<HistogramItem> histogram = new List<HistogramItem>();
+    public List<HistogramItem> Histogram
+    {
+        get => histogram;
+        private set
+        {
+            histogram = value;
+            OnPropertyChanged(nameof(Histogram));
+        }
+    }
     private IDiagramBase Diagram { get; set; }
 
     [ObservableProperty]
@@ -37,6 +48,9 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private double linkThickness;
+
+    [ObservableProperty]
+    private double histogramStrokeThickness;
 
     private readonly string theme = "";
 
@@ -49,6 +63,8 @@ public partial class MainViewModel : ViewModelBase
     private double themeHeight;
     [ObservableProperty]
     private double themeWidth;
+
+    private readonly HistogramManager histogramManager = new HistogramManager();
 
     public MainViewModel(List<Link> links, DiagramType type)
     {
@@ -71,8 +87,10 @@ public partial class MainViewModel : ViewModelBase
 
         BookThickness = ConfigManager.GetConfigProperty("BookThickness");
         LinkThickness = ConfigManager.GetConfigProperty("LinkThickness");
+        HistogramStrokeThickness = (histogramManager.isHistogramVerses) ? 0.5 : 0;
         Books = Diagram.GetInitializedBooks();
-        Links = Diagram.GetConnectedLinks(links, Books);
+        Links = Diagram.GetConnectedLinks(links, Books, histogramManager.IsHistogramActive);
+        Histogram = histogramManager.GetHistogram(Books);
     }
     public MainViewModel(List<Link> links, string theme)
     {
@@ -81,8 +99,10 @@ public partial class MainViewModel : ViewModelBase
         Diagram = new TwoLinesDiagramModel(true);
         BookThickness = ConfigManager.GetConfigProperty("BookThickness");
         LinkThickness = ConfigManager.GetConfigProperty("LinkThickness");
+        HistogramStrokeThickness = (histogramManager.isHistogramVerses) ? 0.5 : 0;
         Books = Diagram.GetInitializedBooks();
-        Links = Diagram.GetConnectedLinks(links, Books);
+        Links = Diagram.GetConnectedLinks(links, Books, histogramManager.IsHistogramActive);
+        Histogram = histogramManager.GetHistogram(Books);
     }
 
     public void Update(Rect Bounds)
@@ -91,6 +111,10 @@ public partial class MainViewModel : ViewModelBase
         Diagram.UpdateDiagramPosition(Bounds);
         UpdateBookGeometries();
         UpdateLinks();
+        if(histogramManager.IsHistogramActive)
+        {
+            UpdateHistogramGeometries();
+        }
     }
 
     private void UpdateLinks()
@@ -114,5 +138,13 @@ public partial class MainViewModel : ViewModelBase
                 Console.WriteLine("Book mapping not succesful");
             }
         };
+    }
+
+    private void UpdateHistogramGeometries()
+    {
+        foreach(var histogramItem in Histogram)
+        {
+            histogramItem.Geometry = Diagram.GetHistogramGeometry(histogramItem);
+        }
     }
 }

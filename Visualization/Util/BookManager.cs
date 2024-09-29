@@ -16,6 +16,32 @@ namespace Visualization.Util
         private readonly IBrush colorBrush;
         private PathGeometry geometry;
         public int Number { get; }
+
+        private double startPosition;
+
+        public double StartPosition
+        {
+            get
+            {
+                if (startPosition == 0)
+                {
+                    startPosition = GetStartPosition();
+                }
+                return startPosition;
+            }
+        }
+        private double endPosition;
+        public double EndPosition
+        {
+            get
+            {
+                if (endPosition == 0)
+                {
+                    endPosition = GetEndPosition();
+                }
+                return endPosition;
+            }
+        }
         public string Name => name;
         public IBrush ColorBrush => colorBrush;
 
@@ -27,7 +53,10 @@ namespace Visualization.Util
         public Dictionary<int, Chapter> Chapters { get; } = new Dictionary<int, Chapter>();
 
         public int VerseCount => Chapters.Values.Sum(chapter => chapter.VerseCount);
-        public int Occurance => Chapters.Values.Sum(chapter=> chapter.Occurance);
+
+        private int bookOccurance = 0;
+        public int DistributableOccurance { get; set; } = 0;
+        public int Occurance => bookOccurance;
         public Book(int number, string name, string color, List<int> versesPerChapter)
         {
             this.Number = number;
@@ -37,17 +66,18 @@ namespace Visualization.Util
             int i = 1;
             foreach(int verseCount in versesPerChapter)
             {
-                Chapters[i++] = new Chapter(verseCount);
+                Chapters[i] = new Chapter(i,verseCount);
+                i++;
             }
         }
-        public double GetStartPosition()
+        private double GetStartPosition()
         {
             Chapter firstChapter = Chapters.Values.First();
             Verse firstVerse = firstChapter.Verses.Values.First();
             return firstVerse.Position;
         }
 
-        public double GetEndPosition()
+        private double GetEndPosition()
         {
             Chapter lastChapter = Chapters.Values.Last();
             Verse lastVerse = lastChapter.Verses.Values.Last();
@@ -60,22 +90,121 @@ namespace Visualization.Util
             if(verseNumber == 0) verseNumber = 1;
             return Chapters[chapterNumber].Verses[verseNumber].Position;
         }
+
+        public void MarkOccurance(Reference reference, int occurance)
+        {
+            bookOccurance += occurance;
+            if(reference.chapterStart == 0)
+            {
+                DistributableOccurance += occurance;
+            }
+            else
+            {
+                int chapterStop = reference.chapterEnd == 0 ? reference.chapterStart : reference.chapterEnd;
+                for(int i = reference.chapterStart; i <= chapterStop; i++)
+                {
+                    if(Chapters.TryGetValue(i, out Chapter chapter))
+                    {
+                        chapter.MarkOccurance(reference, occurance);
+                    }
+                }
+            }
+        }
     }
 
     public class Chapter
     {
+        public int Number;
+
+        private double startPosition;
+
+        public double StartPosition
+        {
+            get
+            {
+                if (startPosition == 0)
+                {
+                    startPosition = Verses.Values.First().Position;  
+                }
+                return startPosition;  
+            }
+        }
+        private double endPosition;
+        public double EndPosition 
+        {
+            get
+            {
+                if(endPosition == 0)
+                {
+                    endPosition = Verses.Values.Last().Position;
+                }
+                return endPosition;
+            }
+        }
         public Dictionary<int, Verse> Verses { get; } = new Dictionary<int, Verse>();
 
         public int VerseCount { get; }
-        public int Occurance => Verses.Values.Sum(verse=> verse.Occurance);
+
+        private int chapterOccurance = 0;
+        public int DistributableOccurance { get; set; } = 0;
+        public int Occurance => chapterOccurance;
 
         // Create chapter with number of verses from beggining
-        public Chapter(int verseCount)
+        public Chapter(int number, int verseCount)
         {
+            Number = number;
             VerseCount = verseCount;
             for (int i = 1; i <= VerseCount; i++)
             {
                 Verses[i] = new Verse();
+            }
+        }
+
+        public void MarkOccurance(Reference reference, int occurance)
+        {
+            chapterOccurance += occurance;
+            if (reference.verseStart == 0 || (Number > reference.chapterStart && Number < reference.chapterEnd))
+            {
+                DistributableOccurance += occurance;
+                return;
+            }
+            int chapterStop = (reference.chapterEnd == 0) ? reference.chapterStart : reference.chapterEnd;
+            int verseStop = (reference.verseEnd == 0) ? reference.verseStart : reference.verseEnd;
+
+            // spanning one chapter only
+            if (chapterStop == reference.chapterStart)
+            {
+                for (int i = reference.verseStart; i <= verseStop; i++)
+                {
+                    if (Verses.TryGetValue(i, out Verse verse))
+                    {
+                        verse.Occurance += occurance;
+                    }
+                }
+                return;
+            }
+            // first chapter in a range of chapters - verses after verseStart count
+            if (Number == reference.chapterStart)
+            {
+                foreach (var kvp in Verses)
+                {
+                    if (kvp.Key >= reference.verseStart)
+                    {
+                        kvp.Value.Occurance += occurance;
+                    }
+                }
+                return;
+            }
+            // last chapter in range - verses before verseEnd count
+            if (Number == reference.chapterEnd)
+            {
+                foreach (var kvp in Verses)
+                {
+                    if(kvp.Key <= reference.verseEnd)
+                    {
+                        kvp.Value.Occurance += occurance;
+                    }
+                }
             }
         }
     }

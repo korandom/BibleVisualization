@@ -71,5 +71,28 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 
+		<ItemsControl ItemsSource="{Binding Histogram}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<Canvas />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Canvas>
+						<Path Data="{Binding Geometry}"
+								Stroke="{Binding Brush}"
+								Fill="{Binding Brush}"
+								StrokeThickness="{Binding DataContext.HistogramStrokeThickness, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
+						<Path Data="{Binding Geometry}"
+								Stroke="Transparent"
+								ToolTip.Tip="{Binding Information}"
+								ToolTip.ShowDelay="200"
+								StrokeThickness="10"/>
+					</Canvas>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
 	</Grid>
 </UserControl>

@@ -30,26 +30,6 @@ namespace Visualization.Util
             }
             throw new Exception($"Invalid configuration for {name}, must be hex color.");
         }
-        public static LinkColorType GetLinkColorType()
-        {
-            string? colorString = ConfigurationManager.AppSettings.Get("LinkColor");
-            if (colorString != null)
-            {
-                if (colorString == "byTargetBook")
-                {
-                    return LinkColorType.byTargetBook;
-                }
-                else if (colorString == "bySourceBook")
-                {
-                    return LinkColorType.bySourceBook;
-                }
-                else if (colorString == "byOrder")
-                {
-                    return LinkColorType.byOrder;
-                }
-            }
-            throw new Exception("Invalid LinkColor configuration.");
-        }
 
         public static List<int> GetBookList(string name)
         {
@@ -59,6 +39,18 @@ namespace Visualization.Util
                 return booksIncluded.Split(',').Select(int.Parse).ToList();
             }
             throw new Exception("Invalid list of books, must be integers separated by commas");
+        }
+
+        public static TEnum GetEnumValue<TEnum>(string name) where TEnum : struct, Enum
+        {
+            string? valueString = ConfigurationManager.AppSettings.Get(name);
+
+            if (valueString!= null && Enum.TryParse(valueString, true, out TEnum value))
+            {
+                return value;
+            }
+
+            throw new Exception($"Invalid configuration value for {name}.");
         }
     }
 }

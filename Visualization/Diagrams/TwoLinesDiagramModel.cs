@@ -26,25 +26,28 @@ namespace Visualization.Diagrams
         private IBrush forwardLinkBrush;
         private IBrush backLinkBrush;
 
+        private readonly double histogramGap = 5;
+        private double histogramMaxLength;
+
         public TwoLinesDiagramModel(bool withTheme)
         {
             this.withTheme = withTheme;
             backLinkBrush = ConfigManager.GetConfigColor("BackReferenceColor");
             forwardLinkBrush = ConfigManager.GetConfigColor("ForwardReferenceColor");
-            linkColorType = ConfigManager.GetLinkColorType();
+            linkColorType = ConfigManager.GetEnumValue<LinkColorType>("LinkColor");
         }
         public PathGeometry GetBookGeometry(Book book)
         {
-            double start = book.GetStartPosition();
-            double end = book.GetEndPosition();
+            double start = book.StartPosition;
+            double end = book.EndPosition;
 
             Point startPoint = GetPointOnLine(start);
             Point endPoint = GetPointOnLine(end);
 
-            return GetStraightLine(endPoint, startPoint);
+            return GeometryHelper.GetStraightLine(endPoint, startPoint);
         }
 
-        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books)
+        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books, bool calculateHistogramData)
         {
             ConcurrentBag<VisualLink> visualLinks = new ConcurrentBag<VisualLink>();
             List<Book> bookList = books.ToList();
@@ -65,6 +68,10 @@ namespace Visualization.Diagrams
 
                             visualLinks.Add(new VisualLink(sourcepos, targetpos, link, brush));
 
+                            if(calculateHistogramData)
+                            {
+                                sourceBook.MarkOccurance(source, link.Occurance);
+                            }
                         }
                         catch {
                             Console.WriteLine();
@@ -79,12 +86,12 @@ namespace Visualization.Diagrams
                 {
                     Reference target = (Reference)link.target;
                     Reference source = link.source;
-                    var targetBook = bookList.FirstOrDefault(book => book.Number == target.book && book.GetStartPosition() > 0);
-                    var sourceBook = bookList.FirstOrDefault(book => book.Number == source.book && book.GetStartPosition() <= 0);
+                    var targetBook = bookList.FirstOrDefault(book => book.Number == target.book && book.StartPosition > 0);
+                    var sourceBook = bookList.FirstOrDefault(book => book.Number == source.book && book.StartPosition <= 0);
                     if(sourceBook == null || targetBook == null)
                     {
-                        targetBook = books.FirstOrDefault(book => book.Number == target.book && book.GetStartPosition() <= 0);
-                        sourceBook = books.FirstOrDefault(book => book.Number == source.book && book.GetStartPosition() > 0);
+                        targetBook = books.FirstOrDefault(book => book.Number == target.book && book.EndPosition <= 0);
+                        sourceBook = books.FirstOrDefault(book => book.Number == source.book && book.EndPosition > 0);
                     }
                     if (sourceBook != null && targetBook != null)
                     {
@@ -118,8 +125,16 @@ namespace Visualization.Diagrams
                             }
 
                             visualLinks.Add(new VisualLink(sourceAngle, targetAngle, link, brush));
+
+                            if(calculateHistogramData)
+                            {
+                                sourceBook.MarkOccurance(source, link.Occurance);
+                                targetBook.MarkOccurance(target, link.Occurance);
+                            }
                         }
-                        catch { }// reference does not exist or is not displayed - so skip
+                        catch {
+                            Console.WriteLine("dummy");
+                        }// reference does not exist or is not displayed - so skip
                     }
                 });
             }
@@ -152,7 +167,7 @@ namespace Visualization.Diagrams
             Point startPoint = GetPointOnLine(link.startPosition);
             Point endPoint = GetPointOnLine(link.endPosition);
 
-            return GetStraightLine(startPoint, endPoint);
+            return GeometryHelper.GetStraightLine(startPoint, endPoint);
         }
 
         public void UpdateDiagramPosition(Rect Bounds)
@@ -160,6 +175,7 @@ namespace Visualization.Diagrams
             lineLength = 0.8 * Bounds.Width;
             double startX = 0.1 * Bounds.Width;
             startTopLine = new Point(startX, Bounds.Height / 4);
+            histogramMaxLength = Bounds.Height / 5;
         }
 
         private Point GetPointOnLine(double proportionalPosition)
@@ -177,17 +193,46 @@ namespace Visualization.Diagrams
             return bookManager.GetBooksOnLine(topLine);
         }
 
-        private PathGeometry GetStraightLine(Point start, Point end)
+        public PathGeometry GetHistogramGeometry(HistogramItem histogramItem)
         {
+            if( histogramItem.Occurance == 0)
+            {
+                return new PathGeometry();
+            }
+
+            int orientation = (histogramItem.StartPosition > 0) ? -1 : 1;
+            double histogramLength = histogramItem.LengthProportional * histogramMaxLength * orientation;
+            double gap = histogramGap * orientation;
+
+            Point AonLine = GetPointOnLine(histogramItem.StartPosition);
+            Point A = AonLine.WithY(AonLine.Y + gap);
+            Point C = A.WithY(A.Y + histogramLength);
+            if( histogramItem.StartPosition == histogramItem.EndPosition )
+            {
+                return GeometryHelper.GetStraightLine(A, C);
+            }
+
+            Point BonLine = GetPointOnLine(histogramItem.EndPosition);
+            Point B = BonLine.WithY(BonLine.Y + gap);
+            Point D = B.WithY(B.Y + histogramLength);
+
             var figure = new PathFigure
             {
-                StartPoint = start,
-                IsClosed = false,
+                StartPoint = A,
+                IsClosed = true,
                 Segments = new PathSegments
             {
                 new LineSegment
                 {
-                    Point = end,
+                    Point = B,
+                },
+                new LineSegment
+                {
+                    Point = D,
+                },
+                new LineSegment
+                {
+                    Point= C
                 }
             }
             };

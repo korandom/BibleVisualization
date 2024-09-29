@@ -15,7 +15,8 @@ namespace Visualization.Diagrams
 {
     public interface IDiagramBase 
     {
-        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books);
+        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books, bool calculateHistogramData);
+
         public ObservableCollection<Book> GetInitializedBooks();
 
         public void UpdateDiagramPosition(Rect Bounds);
@@ -23,6 +24,8 @@ namespace Visualization.Diagrams
         public PathGeometry GetLinkGeometry(VisualLink link);
 
         public PathGeometry GetBookGeometry(Book book);
+
+        public PathGeometry GetHistogramGeometry(HistogramItem histogramItem);
 
     }
 }

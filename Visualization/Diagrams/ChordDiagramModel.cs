@@ -3,11 +3,13 @@ using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using DataStructures;
 using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Visualization.Util;
@@ -25,20 +27,23 @@ namespace Visualization.Diagrams
         private IBrush forwardLinkBrush;
         private IBrush backLinkBrush;
 
+        private double histogramMaxLength = 90;
+        private double histogramGap = 5;
+
         public ChordDiagramModel()
         {
             curveParam = ConfigManager.GetConfigProperty("CurvingParameter");
             backLinkBrush = ConfigManager.GetConfigColor("BackReferenceColor");
             forwardLinkBrush = ConfigManager.GetConfigColor("ForwardReferenceColor");
-            linkColorType = ConfigManager.GetLinkColorType();
+            linkColorType = ConfigManager.GetEnumValue<LinkColorType>("LinkColor");
         }
         public PathGeometry GetBookGeometry(Book book)
         {
-            double start = book.GetStartPosition();
-            double end = book.GetEndPosition();
+            double start = book.StartPosition;
+            double end = book.EndPosition;
 
-            Point startPoint = GetPointOnCircle(start);
-            Point endPoint = GetPointOnCircle(end);
+            Point startPoint = GetPointOnCircle(start, radius);
+            Point endPoint = GetPointOnCircle(end, radius);
             ArcSegment arcSegment = new ArcSegment
             {
                 Point = endPoint,
@@ -62,7 +67,7 @@ namespace Visualization.Diagrams
             return pathGeometry;
         }
 
-        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books)
+        public List<VisualLink> GetConnectedLinks(List<Link> links, ObservableCollection<Book> books, bool calculateHistogramData)
         {
             ConcurrentBag<VisualLink> visualLinks = new ConcurrentBag<VisualLink>();
 
@@ -109,6 +114,11 @@ namespace Visualization.Diagrams
                         }
 
                         visualLinks.Add(new VisualLink(sourceAngle, targetAngle, link, brush));
+                        if(calculateHistogramData)
+                        {
+                            sourceBook.MarkOccurance(source, link.Occurance);
+                            targetBook.MarkOccurance(target, link.Occurance);
+                        }
                     }
                     catch{  } // link not found, skip
                 }
@@ -126,8 +136,8 @@ namespace Visualization.Diagrams
 
         public PathGeometry GetLinkGeometry(VisualLink link)
         {
-            Point endPoint = GetPointOnCircle(link.endPosition);
-            Point startPoint = GetPointOnCircle(link.startPosition);
+            Point endPoint = GetPointOnCircle(link.endPosition, radius);
+            Point startPoint = GetPointOnCircle(link.startPosition, radius);
 
             Point controlPoint = GetControlPoint(curveParam, endPoint, startPoint);
 
@@ -156,10 +166,10 @@ namespace Visualization.Diagrams
             radius = Math.Min(Bounds.Width, Bounds.Height) / 2 - 100;
         }
 
-        private Point GetPointOnCircle(double angle)
+        private Point GetPointOnCircle(double angle, double r)
         {
-            double x = center.X + radius * Math.Cos(angle);
-            double y = center.Y + radius * Math.Sin(angle);
+            double x = center.X + r * Math.Cos(angle);
+            double y = center.Y + r * Math.Sin(angle);
             return new Point(x, y);
         }
 
@@ -179,6 +189,63 @@ namespace Visualization.Diagrams
                 midPoint.X + vectorToCenter.X * curveParam * scaleFactor,
                 midPoint.Y + vectorToCenter.Y * curveParam * scaleFactor
             );
+        }
+
+        public PathGeometry GetHistogramGeometry(HistogramItem histogramItem)
+        {
+            if (histogramItem.Occurance == 0)
+            {
+                return new PathGeometry();
+            }
+            double start = histogramItem.StartPosition;
+            double end = histogramItem.EndPosition;
+            double histogramLength = histogramItem.LengthProportional * histogramMaxLength;
+
+            Point A = GetPointOnCircle(start, radius + histogramGap);
+
+            Point C = GetPointOnCircle(start, radius + histogramGap + histogramLength);
+
+            if (start == end)
+            {
+                return GeometryHelper.GetStraightLine(A, C);
+            }
+
+            Point B = GetPointOnCircle(end, radius + histogramGap);
+
+            Point D = GetPointOnCircle (end, radius + histogramGap + histogramLength);
+
+            var figure = new PathFigure
+            {
+                StartPoint = A,
+                IsClosed = true,
+                Segments = new PathSegments
+                {
+                    new ArcSegment
+                    {
+                        Point = B,
+                        Size = new Size(radius + histogramGap, radius + histogramGap),
+                        SweepDirection = SweepDirection.Clockwise,
+                        IsLargeArc = end - start > Math.PI
+                    },
+                    new LineSegment
+                    {
+                        Point = D,
+                    },
+                    new ArcSegment
+                    {
+                        Point = C,
+                        Size = new Size(radius + histogramGap + histogramLength, radius + histogramGap + histogramLength),
+                        SweepDirection = SweepDirection.Clockwise,
+                        IsLargeArc = end - start > Math.PI
+                    },
+                }
+            };
+            var pathGeometry = new PathGeometry
+            {
+                Figures = new PathFigures { figure }
+            };
+
+            return pathGeometry;
         }
     }
 }
