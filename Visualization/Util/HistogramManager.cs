@@ -148,10 +148,13 @@ namespace Visualization.Util
 
         private void CalculateProportionalLengths(List<HistogramItem> histogramItems)
         {
-            int maxOccurance = histogramItems.Max(item => item.Occurance);
-            foreach( HistogramItem histogramItem in histogramItems)
+            if(histogramItems.Count > 0)
             {
-                histogramItem.LengthProportional = Math.Sqrt((double)histogramItem.Occurance)/Math.Sqrt(maxOccurance);
+                int maxOccurance = histogramItems.Max(item => item.Occurance);
+                foreach (HistogramItem histogramItem in histogramItems)
+                {
+                    histogramItem.LengthProportional = Math.Sqrt((double)histogramItem.Occurance) / Math.Sqrt(maxOccurance);
+                }
             }
         }
     }
