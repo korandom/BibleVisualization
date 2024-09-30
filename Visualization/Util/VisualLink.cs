@@ -21,7 +21,9 @@ namespace Visualization.Util
         [ObservableProperty]
         private PathGeometry geometry;
 
-        public Link link;
+        private Link link;
+
+        public string Information => $"S: {link.source}{(link.target != null ? $"\nT: {((Reference)link.target)}" : "")}";
         public VisualLink(double startPosition, double endPosition, Link link, IBrush color)
         {
             this.startPosition = startPosition;

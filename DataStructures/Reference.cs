@@ -136,6 +136,26 @@ namespace DataStructures
             }
             return book - y.book;
         }
+
+        public override string ToString()
+        {
+            if (book != 0)
+            {
+                string bookS;
+                try
+                {
+                    bookS = NumberToBook.bookNumberToShortName[book];
+                }
+                catch { return "book not found"; };
+                string chapterS = (chapterStart == 0) ? "" : $" {chapterStart}";
+                string verseS = (verseStart == 0) ? "" : $":{verseStart}";
+                bool sameChapter = chapterEnd == 0 || chapterEnd == chapterStart;
+                string chapterE = (sameChapter) ? "" : $"-{chapterEnd}";
+                string verseE = (verseEnd == 0 || (verseEnd == verseStart && sameChapter)) ? "" : (chapterE == "") ? $"-{verseEnd}" : $":{verseEnd}";
+                return bookS + chapterS + verseS + chapterE + verseE;
+            }
+            return "all";
+        }
     }
     public static class ReferenceExtentions
     {/*

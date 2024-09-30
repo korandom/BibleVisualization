@@ -41,10 +41,17 @@
 			</ItemsControl.ItemsPanel>
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<Path Data="{Binding Geometry}"
-								Stroke="{Binding ColorBrush}"
-								StrokeThickness="{Binding DataContext.LinkThickness, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-								Opacity="0.5"/>
+					<Canvas>
+						<Path Data="{Binding Geometry}"
+									Stroke="{Binding ColorBrush}"
+									StrokeThickness="{Binding DataContext.LinkThickness, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+									Opacity="0.5"/>
+						<Path Data="{Binding Geometry}"
+									Stroke="Transparent"
+									ToolTip.Tip="{Binding Information}"
+									ToolTip.ShowDelay="200"
+									StrokeThickness="15"/>
+					</Canvas>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
@@ -88,7 +95,8 @@
 								Stroke="Transparent"
 								ToolTip.Tip="{Binding Information}"
 								ToolTip.ShowDelay="200"
-								StrokeThickness="10"/>
+								StrokeThickness="10"
+								Fill ="Transparent"/>
 					</Canvas>
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>

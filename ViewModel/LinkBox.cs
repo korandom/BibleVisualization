@@ -116,32 +116,14 @@ namespace ViewModel
         {
             this.bible = bible;
         }
-        private string GetStringRepresentation(Reference r)
-        {
-            if (r.book != 0)
-            {
-                string book;
-                try
-                {
-                    book = NumberToBook.bookNumberToShortName[r.book];
-                }
-                catch { return "book not found"; };
-                string chapterS = (r.chapterStart == 0) ? "" : $" {r.chapterStart}";
-                string verseS = (r.verseStart == 0) ? "" : $":{r.verseStart}";
-                bool sameChapter = r.chapterEnd == 0 || r.chapterEnd == r.chapterStart;
-                string chapterE = (sameChapter) ? "" : $"-{r.chapterEnd}";
-                string verseE = (r.verseEnd == 0 || (r.verseEnd == r.verseStart && sameChapter)) ? "" : (chapterE=="")? $"-{r.verseEnd}":$":{r.verseEnd}";
-                return book + chapterS + verseS + chapterE + verseE;
-            }
-            return "all";
-        }
+
         private void InitialLinkSetUP(Link link)
         {
-            SourceLabel = GetStringRepresentation(link.source);
+            SourceLabel = link.source.ToString();
             TargetLabel = "";
             if(link.target != null)
             {
-                TargetLabel = GetStringRepresentation((Reference)link.target);
+                TargetLabel = ((Reference)link.target).ToString();
             } 
             if (source)
             {

@@ -235,7 +235,7 @@ namespace Visualization.Diagrams
                     {
                         Point = C,
                         Size = new Size(radius + marginAroundBooks + histogramLength, radius + marginAroundBooks + histogramLength),
-                        SweepDirection = SweepDirection.Clockwise,
+                        SweepDirection = SweepDirection.CounterClockwise,
                         IsLargeArc = end - start > Math.PI
                     },
                 }
