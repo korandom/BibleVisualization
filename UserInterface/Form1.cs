@@ -15,7 +15,8 @@ namespace UserInterface
             InitializeComponent();
             DataBind();
             this.AcceptButton = SearchButton;
-
+            this.KeyPreview = true;
+            this.KeyDown += FormKeyDown;
 
         }
         public Form1(string[] requirementArray) : this()
@@ -229,7 +230,7 @@ namespace UserInterface
             else
             {
                 MV.Search(ThemeComboBox.SelectedItem.ToString(), "");
-                TwoLineDiagramButton.Visible= true;
+                TwoLineDiagramButton.Visible = true;
                 ChordDiagramButton.Visible = false;
             }
 
@@ -331,6 +332,7 @@ namespace UserInterface
 
         private void SearchThemebutton_Click(object sender, EventArgs e)
         {
+            tableLayoutPanel2.SuspendLayout();
             MV.Clean("");
             // disable visualizations before search
             ChordDiagramButton.Visible = false;
@@ -379,6 +381,7 @@ namespace UserInterface
                 RequirementTextBox1.Visible = true;
                 SearchThemebutton.Text = "Search Theme";
             }
+            tableLayoutPanel2.ResumeLayout(false);
         }
 
         private void ChordDiagramButton_Click(object sender, EventArgs e)
@@ -389,7 +392,7 @@ namespace UserInterface
 
         private void TwoLineDiagramButton_Click(object sender, EventArgs e)
         {
-            if(MV.searchBox.SearchingRequirementLinks)
+            if (MV.searchBox.SearchingRequirementLinks)
             {
                 VisualizationForm visualizationForm = new VisualizationForm(MV.Links, Visualization.Util.DiagramType.TwoLines);
                 visualizationForm.Show();
@@ -398,6 +401,18 @@ namespace UserInterface
             {
                 VisualizationForm visualizationForm = new VisualizationForm(MV.Links, ThemeComboBox.SelectedItem.ToString());
                 visualizationForm.Show();
+            }
+        }
+
+        private void FormKeyDown(object? sender, KeyEventArgs e)
+        {
+            if (PreviousButton.Visible && e.KeyCode == Keys.Left)
+            {
+                PreviousButton.PerformClick();
+            }
+            else if (MoreButton.Visible && e.KeyCode == Keys.Right)
+            {
+                MoreButton.PerformClick();
             }
         }
     }
