@@ -21,15 +21,15 @@ namespace Visualization.Util
         [ObservableProperty]
         private PathGeometry geometry;
 
-        private Link link;
+        public Link Link { get; }
 
-        public string Information => $"S: {link.source}{(link.target != null ? $"\nT: {((Reference)link.target)}" : "")}";
+        public string Information => $"S: {Link.source}{(Link.target != null ? $"\nT: {((Reference)Link.target)}" : "")}";
         public VisualLink(double startPosition, double endPosition, Link link, IBrush color)
         {
             this.startPosition = startPosition;
             this.endPosition = endPosition;
             this.colorBrush = color;
-            this.link = link;
+            this.Link = link;
         }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Visualization.Diagrams;
 using Visualization.Util;
 
@@ -31,6 +32,9 @@ public partial class MainViewModel : ViewModelBase
         }
     }
 
+    [ObservableProperty]
+    private VisualLink? boldLink;
+
     private List<HistogramItem> histogram = new List<HistogramItem>();
     public List<HistogramItem> Histogram
     {
@@ -48,6 +52,8 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private double linkThickness;
+
+    public double BoldLinkThickness => LinkThickness + 2;
 
     [ObservableProperty]
     private double histogramStrokeThickness;
@@ -114,6 +120,22 @@ public partial class MainViewModel : ViewModelBase
         if(histogramManager.IsHistogramActive)
         {
             UpdateHistogramGeometries();
+        }
+    }
+
+    public void ShowBold(Link link)
+    {
+        if (BoldLink is null || BoldLink.Link != link)
+        {
+            var visLink = Links.FirstOrDefault(l => l.Link == link);
+            if (visLink != null)
+            {
+                BoldLink = visLink;
+            }
+            else
+            {
+                BoldLink = null; 
+            }
         }
     }
 

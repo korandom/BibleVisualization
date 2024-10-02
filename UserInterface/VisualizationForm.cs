@@ -17,17 +17,25 @@ namespace UserInterface
 {
     public partial class VisualizationForm : Form
     {
+        MainViewModel mainViewModel;
         public VisualizationForm(List<Link> links, DiagramType type )
         {
             InitializeComponent();
-            avaloniaHost.Content = new MainView { DataContext = new MainViewModel(links, type) };
+            mainViewModel = new MainViewModel( links, type );
+            avaloniaHost.Content = new MainView { DataContext = mainViewModel };
         }
 
         public VisualizationForm(List<Link> links, string theme)
         {
             InitializeComponent();
-            avaloniaHost.Content = new MainView { DataContext = new MainViewModel(links, theme) };
+            mainViewModel = new MainViewModel(links, theme);
+            avaloniaHost.Content = new MainView { DataContext = mainViewModel };
 
+        }
+
+        public void ShowBold(Link link)
+        {
+            mainViewModel.ShowBold(link);
         }
     }
 }

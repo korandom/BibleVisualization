@@ -105,6 +105,7 @@ namespace ViewModel
 
         bool source = true;
         Link link;
+        public Link Link => link;
         BibleText bible;
         VerseEnumerator verseEnumerator;
 
@@ -197,6 +198,7 @@ namespace ViewModel
                 }
             }
         }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName)

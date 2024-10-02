@@ -4,11 +4,13 @@ using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ViewModel;
+using static System.Windows.Forms.DataFormats;
 namespace UserInterface
 {
     public partial class Form1 : Form
     {
         ModelViewRequirementBase MV;
+        List<VisualizationForm> forms = new List<VisualizationForm>();
         public Form1()
         {
             MV = new ModelViewRequirementBase();
@@ -16,7 +18,7 @@ namespace UserInterface
             DataBind();
             this.AcceptButton = SearchButton;
             this.KeyPreview = true;
-            this.KeyDown += FormKeyDown;
+            
 
         }
         public Form1(string[] requirementArray) : this()
@@ -86,7 +88,7 @@ namespace UserInterface
             FoundVersesTable.Controls.Add(table, 0, i + 1);
             TableProportionsSetUp(table);
             LinkBox linkBox = MV.linkBoxes[i];
-            table.Tag = linkBox;
+            //table.Tag = linkBox;
 
             Label sourceLabel = new Label();
             Label s = new Label();
@@ -98,6 +100,8 @@ namespace UserInterface
             Button back = new Button();
             Button next = new Button();
             RichTextBox verse = new RichTextBox();
+            verse.Tag = linkBox;
+            verse.MouseEnter += Verse_MouseEnter;
 
             //text appearance
             verse.ReadOnly = true;
@@ -153,6 +157,17 @@ namespace UserInterface
 
             table.ResumeLayout(false);
             FoundVersesTable.ResumeLayout(false);
+        }
+
+        private void Verse_MouseEnter(object? sender, EventArgs e)
+        {
+            if (sender is RichTextBox box && box.Tag is LinkBox linkBox)
+            {
+                foreach (VisualizationForm form in forms)
+                {
+                    form.ShowBold(linkBox.Link);
+                }
+            }
         }
 
         private void TableProportionsSetUp(TableLayoutPanel table)
@@ -387,6 +402,8 @@ namespace UserInterface
         private void ChordDiagramButton_Click(object sender, EventArgs e)
         {
             VisualizationForm visualizationForm = new VisualizationForm(MV.Links, Visualization.Util.DiagramType.Chord);
+            visualizationForm.FormClosed += VisualizationFormClosed;
+            forms.Add(visualizationForm);
             visualizationForm.Show();
         }
 
@@ -395,25 +412,40 @@ namespace UserInterface
             if (MV.searchBox.SearchingRequirementLinks)
             {
                 VisualizationForm visualizationForm = new VisualizationForm(MV.Links, Visualization.Util.DiagramType.TwoLines);
+                visualizationForm.FormClosed += VisualizationFormClosed;
+                forms.Add(visualizationForm);
                 visualizationForm.Show();
             }
             else
             {
                 VisualizationForm visualizationForm = new VisualizationForm(MV.Links, ThemeComboBox.SelectedItem.ToString());
+                visualizationForm.FormClosed += VisualizationFormClosed;
+                forms.Add(visualizationForm);
                 visualizationForm.Show();
             }
         }
 
-        private void FormKeyDown(object? sender, KeyEventArgs e)
+        private void VisualizationFormClosed(object? sender, FormClosedEventArgs e) 
         {
-            if (PreviousButton.Visible && e.KeyCode == Keys.Left)
+            if (sender is VisualizationForm form && form != null)
+            {
+                forms.Remove(form);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Left && PreviousButton.Visible)
             {
                 PreviousButton.PerformClick();
+                return true; 
             }
-            else if (MoreButton.Visible && e.KeyCode == Keys.Right)
+            if (keyData == Keys.Right && MoreButton.Visible)
             {
                 MoreButton.PerformClick();
+                return true; 
             }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

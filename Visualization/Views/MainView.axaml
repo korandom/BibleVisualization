@@ -102,5 +102,12 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 
+		<Canvas>
+			<Path Data="{Binding BoldLink.Geometry}"
+						Stroke="Black"
+						Opacity="0.8"
+						StrokeThickness="{Binding BoldLinkThickness}"/>
+		</Canvas>
+
 	</Grid>
 </UserControl>

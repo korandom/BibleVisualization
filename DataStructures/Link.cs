@@ -34,7 +34,7 @@ namespace DataStructures
         {
             return !(first == another);
         }
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is Link  && Equals((Link)obj);
         }
